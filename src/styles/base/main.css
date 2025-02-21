@@ -1,0 +1,62 @@
+/* Réglages globaux  */
+body {
+  background-color: #0d0d0d;
+  color: #ebebeb;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.4;
+  ;
+}
+
+.logo {
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  width: 187px;
+}
+
+/* Titre sections + espace */
+.section__content {
+  margin: 20px;
+}
+
+.section__title {
+  font-size: var(--M22);
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.section__title-left {
+  font-size: var(--M22);
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+
+
+.section__sous_titre {
+  text-align: center;
+  font-size: var(--M14);
+  margin-bottom: 50px;
+}
+
+.section {
+  margin-top: 70px;
+}
+
+.section__tbd_title {
+  margin: 20px;
+  font-size: var(--M20);
+}
+
+
+
+
+
+
+
+
+
+

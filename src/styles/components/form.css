@@ -1,0 +1,93 @@
+.section_inscription {
+    background: linear-gradient(90deg, #2B3C43, #1E2A2F);
+    border-radius: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-top: 70px;
+  }
+  
+  .form {
+    margin: auto;
+    border-radius: 20px;
+    /* Arrondir les coins */
+    padding: 1px;
+    /* Épaisseur de la bordure */
+    background: linear-gradient(180deg, #df3e3f, #e55a1c);
+    /* Dégradé uniquement pour la bordure */
+    width: 392px;
+    /* Largeur de la carte */
+    margin-bottom: 25px;
+    
+    
+  
+  }
+  
+  .contact_form {
+    background-color: #1C2225;
+    border-radius: 20px;
+    width: 370px;
+    display: flex;
+    border: 0;
+    height: 46px;
+    padding-left: 20px;
+    
+    
+  }
+  
+  .contact_form--padding {
+    padding-bottom: 150px;
+    
+  }
+  
+  
+  .pre_inscription {
+    padding-bottom: 30px;
+    padding-top: 30px;
+  }
+  
+  
+  .section__sous_titre_inscription {
+    font-size: var(--M14);
+    margin-top: 30px;
+    margin-bottom: 40px;
+  
+  }
+  
+  .titres_sections_inscription {
+    font-size: var(--M20);
+  }
+  
+  .checkbox_conditions {
+  
+    padding-left: 20px;
+    font-size: var(--M14);
+    border-radius: 50px;
+    margin-top: 50px;
+  }
+  
+  .checkbox_label {
+    padding: 20px;
+    
+    
+  }
+  
+
+  
+  .lien_politique {
+    color: #ebebeb;
+  }
+  
+  .checkbox_conditions input {
+    width: 15px;
+    height: 15px;
+    border-radius: 5px; 
+    border: 2px solid #ebebeb;
+    background-color: white;
+    appearance: none;
+    cursor: pointer;
+  }
+  
+  .checkbox_conditions input:checked {
+    background-color: #190505;
+    border: 2px solid #971010;
+  }

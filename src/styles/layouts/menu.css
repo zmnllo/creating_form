@@ -1,0 +1,88 @@
+/* Style général */
+.burger-button {
+    display: inline-block;
+    padding: 30px 30px;
+    font-weight: bold;
+    text-decoration: none; /* Supprime le soulignement du lien */
+    color: #ebebeb;
+    background-color: #0d0d0d;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    font-size: 30px;
+}
+
+
+/* Menu */
+.menu {
+    display: none;
+    background-color: #0d0d0d; 
+    padding: 35px;
+    position: fixed;
+    margin-right: 50px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    font-family: var(--Roboto);
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu li {
+    margin: 20px 0;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #ebebeb;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Affichage du menu actif */
+.menu.active {
+    display: block;
+    transform: translateX(0);
+}
+
+/* Animation du bouton burger */
+.burger-button.open .burger-bar:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.burger-button.open .burger-bar:nth-child(2) {
+    opacity: 0;
+}
+
+.burger-button.open .burger-bar:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.bi bi-list {
+    width: 30px;
+}
+
+@media (min-width: 768px) {
+    .burger-button {
+        display: none; /* Cache le bouton burger */
+    }
+
+    .menu {
+        display: block;
+        position: static;
+        transform: translateX(0);
+        width: auto;
+        height: auto;
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    .menu ul {
+        flex-direction: row;
+        gap: 40px;
+        display: flex;
+    }
+}

@@ -1,0 +1,59 @@
+.footer {
+    margin-top: 70px;
+    box-shadow: 0px -2px 7px rgba(223, 62, 63, 0.4);
+    padding-top: 50px;
+    padding-bottom: 5px;
+}
+
+.hr_footer {
+    border-color: #df3e3f;
+    width: 180px;
+    margin: 0px;
+    margin: 20px;
+}
+
+.footer_contact {
+    margin: 20px;
+    font-size: var(--M12);
+    font-weight: 500;
+}
+
+.footer_facebook {
+    margin: 20px;
+    width: 20px;
+    font-weight: 500;
+    
+}
+.footer_facebook img {
+    width: 100%;
+}
+
+.footer_liens {
+    margin: 20px;
+    font-size: var(--M12);
+    font-weight: 500;
+}
+
+.footer_ul {
+    list-style: none;
+    padding-left: 0px;
+}
+
+.footer_horaires {
+    margin: 20px;
+    font-size: var(--M12);
+    font-weight: 500;
+}
+
+.hr_footer_conditions {
+    border-color: #df3e3f;
+}
+
+.footer_conditions {
+    text-align: center;
+    margin: 20px;
+    font-size: 10px ;
+    padding: 5px;
+    font-weight: 600;
+
+}

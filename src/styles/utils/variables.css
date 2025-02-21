@@ -1,0 +1,24 @@
+:root {
+  /* COLOR */
+  --primary-gradient: linear-gradient(45deg, #df3e3f, #e55a1c);
+  --gray-1: #1c1c1c;
+
+
+  /* TYPO */
+  --Montserrat: "Montserrat", serif;
+  --Roboto: "Roboto Condensed", serif;
+
+  /* CLAMP */
+   --M36: clamp(2.25rem, 0.9237rem + 4.4118vw, 3.75rem); /* 36 mobile 60 desktop */
+   --M24: clamp(1.5rem, 1.1684rem + 1.1029vw, 1.875rem); /* 24 mobile 30 desktop */
+   --M22: clamp(1.375rem, 1.0434rem + 1.1029vw, 1.75rem); /* 22 mobile 28 desktop */
+   --M20: clamp(1.25rem, 0.8079rem + 1.4706vw, 1.75rem); /* 20 mobile 28 desktop */
+   --M18: clamp(1.125rem, 0.7934rem + 1.1029vw, 1.5rem); /* 18 mobile 24 desktop */
+   --M16: clamp(1rem, 0.779rem + 0.7353vw, 1.25rem); /* 16 mobile 20 desktop */
+   --M16-18: clamp(1rem, 0.8895rem + 0.3676vw, 1.125rem); /* 16 mobile 18 desktop */
+   --M14: clamp(0.875rem, 0.654rem + 0.7353vw, 1.125rem); /* 14 mobile 18 desktop */
+   --M14-16: clamp(0.875rem, 0.7645rem + 0.3676vw, 1rem); /* 14 mobile 16 desktop */
+   --M12: clamp(0.75rem, 0.6395rem + 0.3676vw, 0.875rem); /* 12 mobile 14 desktop */
+   --M40: clamp(2.5rem, 2.5rem + 0vw, 2.5rem);  /* price */
+   --img-header__img-header__img-header__btn: clamp(1rem, 1rem + 0vw, 1rem); /* Button */
+}

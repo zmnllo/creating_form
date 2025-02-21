@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+/* Vendors */
+@import "./vendors/normalize.css";
+
+/* Utils */
+@import "./utils/variables.css";
+
+/* Base */
+@import "./base/main.css";
+
+/* Layouts */
+@import "./layouts/footer.css";
+@import "./layouts/header.css";
+@import "./layouts/menu.css";
+
+/* Components */
+@import "./components/button.css";
+@import "./components/card.css";
+@import "./components/fonctionnalite.css";
+@import "./components/form.css";
+@import "./components/hero.css";

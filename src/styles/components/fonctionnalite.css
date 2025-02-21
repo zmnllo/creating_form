@@ -1,0 +1,30 @@
+.section--fonctionnalite {
+  background: radial-gradient(circle, #2B3C43, #1E2A2F);
+  color: #ebebeb;
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  margin-top: 70px;
+}
+
+.section--fonctionnalite {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.fonctionnalite_cards {
+  width: 350px;
+  margin-top: 35px;
+  margin-bottom: 35px;
+}
+
+.fonctionnalite_sous-titre {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.fonctionalite_title {
+  font-size: var(--M20);
+}

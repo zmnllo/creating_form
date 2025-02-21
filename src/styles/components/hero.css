@@ -1,0 +1,68 @@
+/* Hero page ACCUEIL */
+.img__hero-header {
+  background-image: url(./imgheader.png);
+  background-size: cover;
+  background-position: center;
+  height: 705px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img__header-container {
+  max-width: 600px;
+  color: white;
+  margin-bottom: 70px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.img__header-bienvenue {
+  font-size: var(--M16);
+  margin-bottom: 35px;
+}
+
+.img__header-slogan {
+  font-size: var(--M36);
+  font-weight: bold;
+  margin-bottom: 35px;
+}
+
+.img__header-text {
+  font-size: var(--M16);
+  margin-bottom: 60px;
+}
+
+/* Hero page MON TABLEAU DE BORD */
+
+.img__hero-tbd {
+background-image: url(/src/assets/group180.webp);
+background-size: cover;
+background-position: center;
+height: 329px;
+display: flex;
+justify-content: center;
+align-items: center; 
+}
+
+.img__container-tdb img {
+  width: 100%;
+}
+
+.img_container-tbd {
+  margin: 20px;
+  display: flex;  
+}
+
+.img__tbd-slogan {
+  font-size: var(--M24);
+  font-weight: 600;
+  margin-bottom: 0px;
+  margin-top: 180px;
+}
+
+.img__tbd-icon {
+  width: 30px;
+  height: 30px;
+}
+

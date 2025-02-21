@@ -1,0 +1,12 @@
+.logo img {
+  width: 147px
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+

@@ -1,0 +1,179 @@
+/* Section TARIFS */
+.card {
+    margin: auto;
+    border-radius: 10px;
+    /* Arrondir les coins */
+    padding: 2px;
+    /* Épaisseur de la bordure */
+    background: linear-gradient(180deg, #df3e3f, #e55a1c);
+    /* Dégradé uniquement pour la bordure */
+    width: 390px;
+    /* Largeur de la carte */
+    margin-bottom: 25px;
+}
+
+.card--minheight>div {
+    min-height: 480px;
+}
+
+.card__caption {
+    background-color: #0d0d0d;
+    border-radius: 10px;
+    padding: 35px;
+}
+
+.card__caption--premium {
+    background-color: transparent;
+}
+
+.card__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
+    padding-top: 20px;
+    padding-bottom: 77px;
+}
+
+.card__list>li {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid white;
+    font-size: var(--M14);
+}
+
+.card__sous_titre {
+    font-size: var(--M14);
+    margin: 0px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.card__suppl {
+    font-size: 11px;
+}
+
+.card__price {
+    font-size: 32px;
+    padding-right: 40px;
+}
+
+.card__title {
+    margin: 0px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.card__title--linear {
+    background: linear-gradient(90deg, #df3e3f, #e55a1c);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+/* Section SERVICES */
+.img-services {
+    border-radius: 50%;
+    height: 100px;
+
+}
+
+.title-sections {
+    font-size: var(--M18);
+}
+
+.card--services {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 30px;
+}
+
+.services {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.services_title {
+    margin: 0px;
+    display: flex;
+    justify-content: center;
+}
+
+.services_title {
+    border-bottom: 1px solid white;
+    padding-bottom: 10px;
+}
+
+
+/* Section INTRO */
+.intro_title {
+    font-size: var(--M18);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.intro-icons {
+    width: 55px;
+    /* Ajuster la taille de l'icône */
+    margin-bottom: 20px;
+    /* Espacement sous l'icône */
+    margin-top: 20px;
+}
+
+.intro {
+    margin: 20px;
+}
+
+
+/* Section TBD > Mes informations */
+.tbd__border {
+    background-color: #262626;
+    border-radius: 20px;
+    padding: 50px;
+    width: 300px;
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 35px;
+    ;
+}
+
+.tbd__titre {
+    margin-left: 0px;
+    font-size: 14px;
+    margin: 0px;
+}
+
+.tbd__infos {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0px;
+}
+
+
+
+.tbd__pen {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 14px;
+    opacity: 0.7;
+    cursor: pointer;
+    width: 20px;
+}
+
+.tbd__container {
+    display: flex;
+    justify-content: center;
+}
+
+
+.tbd__border-in {
+    border-bottom: solid 1px #ebebeb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
