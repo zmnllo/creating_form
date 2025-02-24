@@ -2,16 +2,17 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require_once '../bdd.php'; // Connexion à la base de données
+include '../bdd.php';
 
-$pdo = require '../bdd.php';
+$successMessage = "";
+$errorMessage = "";
 
-// Vérifier si un ID est passé dans l'URL
-if (!isset($_GET['id_abonnement']) || empty($_GET['id_abonnement'])) {
-    die("Erreur : Aucun ID d'abonnement reçu.");
+// Vérifier si un ID est passé dans l'URL (sécurisation)
+$id_abonnement = filter_input(INPUT_GET, 'id_abonnement', FILTER_VALIDATE_INT);
+
+if (!$id_abonnement) {
+    die("Erreur : Aucun ID d'abonnement valide reçu.");
 }
-
-$id_abonnement = intval($_GET['id_abonnement']); // Sécuriser l'ID
 
 // Récupérer les infos de l'abonnement sélectionné
 $query = "SELECT * FROM abonnement WHERE id_abonnement = :id_abonnement";
@@ -24,13 +25,13 @@ if (!$abonnement) {
     die("Erreur : Abonnement introuvable.");
 }
 
+// Vérifier si le formulaire a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo "Le formulaire a été soumis !<br>";
+    $nom_abonnement = filter_input(INPUT_POST, 'nom_abonnement', FILTER_SANITIZE_STRING);
+    $prix_abonnement = filter_input(INPUT_POST, 'prix_abonnement', FILTER_VALIDATE_FLOAT);
 
-    // Vérifier si les champs sont bien remplis
-    if (!empty($_POST['nom_abonnement']) && !empty($_POST['prix_abonnement'])) {
-        $nom_abonnement = $_POST['nom_abonnement'];
-        $prix_abonnement = $_POST['prix_abonnement'];
+    if (!empty($nom_abonnement) && $prix_abonnement !== false) {
+        $nom_abonnement = trim($nom_abonnement);
 
         // Mettre à jour l'abonnement en base de données
         $updateQuery = "UPDATE abonnement SET nom_abonnement = :nom_abonnement, prix_abonnement = :prix_abonnement WHERE id_abonnement = :id_abonnement";
@@ -40,15 +41,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(':id_abonnement', $id_abonnement, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            echo "Abonnement mis à jour avec succès ! <a href='abonnements.php'>Retour</a>";
+            header("Location: abonnements.php?success=modification");
+            exit();
         } else {
-            echo "Erreur lors de la mise à jour.";
+            $errorMessage = "Erreur lors de la mise à jour.";
         }
     } else {
-        echo "Tous les champs doivent être remplis.";
+        $errorMessage = "Tous les champs doivent être remplis correctement.";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -56,26 +57,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier un abonnement</title>
+    <title>Modifier un Abonnement</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        form { display: inline-block; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9; }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            width: 250px;
+        }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .back-link { display: block; margin-top: 20px; text-decoration: none; color: #3498db; font-weight: bold; }
+    </style>
 </head>
 <body>
 
-    <h2>Modifier l'abonnement</h2>
+    <h1>Modifier un Abonnement</h1>
+
+    <!-- Affichage des messages -->
+    <?php if (!empty($successMessage)) : ?>
+        <p class="success"><?= $successMessage ?></p>
+    <?php endif; ?>
+
+    <?php if (!empty($errorMessage)) : ?>
+        <p class="error"><?= $errorMessage ?></p>
+    <?php endif; ?>
 
     <form method="post">
         <label>Nom :</label>
-        <input type="text" name="nom_abonnement" value="<?= isset($abonnement['nom_abonnement']) ? htmlspecialchars($abonnement['nom_abonnement']) : '' ?>" required><br><br>
+        <input type="text" name="nom_abonnement" value="<?= htmlspecialchars($abonnement['nom_abonnement']) ?>" required>
 
         <label>Prix (€) :</label>
-        <input type="number" name="prix_abonnement" step="1" value="<?= isset($abonnement['prix_abonnement']) ? htmlspecialchars($abonnement['prix_abonnement']) : '' ?>" required><br><br>
+        <input type="number" name="prix_abonnement" step="1" value="<?= htmlspecialchars($abonnement['prix_abonnement']) ?>" required>
 
-        <input type="submit" value="Mettre à jour">
+        <button type="submit">Mettre à jour</button>
     </form>
 
-    <br>
-    <a href="abonnements.php">Annuler</a>
+    <a href="abonnements.php" class="back-link">Retour</a>
 
 </body>
 </html>
-
-

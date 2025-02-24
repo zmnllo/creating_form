@@ -2,31 +2,32 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include '../bdd.php'; // Connexion à la base de données
+include '../bdd.php';
 
 $successMessage = "";
 $errorMessage = "";
 
 // Vérifier si le formulaire a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!empty($_POST['nom_abonnement']) && !empty($_POST['prix_abonnement'])) {
-        $nom_abonnement = htmlspecialchars($_POST['nom_abonnement']);
-        $prix_abonnement = floatval($_POST['prix_abonnement']);
+    $nom_abonnement = filter_input(INPUT_POST, 'nom_abonnement', FILTER_SANITIZE_STRING);
+    $prix_abonnement = filter_input(INPUT_POST, 'prix_abonnement', FILTER_VALIDATE_FLOAT);
 
-        // Insérer l'abonnement dans la base de données
+    if (!empty($nom_abonnement) && $prix_abonnement !== false) {
+        // Insertion dans la base de données
         $query = "INSERT INTO abonnement (nom_abonnement, prix_abonnement) VALUES (:nom_abonnement, :prix_abonnement)";
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':nom_abonnement', $nom_abonnement, PDO::PARAM_STR);
         $stmt->bindParam(':prix_abonnement', $prix_abonnement, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
+            // Rediriger avec message de succès
             header("Location: abonnements.php?success=ajout");
-            exit;
+            exit();
         } else {
             $errorMessage = "Erreur lors de l'ajout de l'abonnement.";
         }
     } else {
-        $errorMessage = "Tous les champs doivent être remplis.";
+        $errorMessage = "Tous les champs doivent être remplis correctement.";
     }
 }
 ?>
@@ -36,19 +37,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un abonnement</title>
-
+    <title>Ajouter un Abonnement</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        form { display: inline-block; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9; }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            width: 250px;
+        }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .back-link { display: block; margin-top: 20px; text-decoration: none; color: #3498db; font-weight: bold; }
+    </style>
 </head>
 <body>
 
-    <h1>Ajouter un abonnement</h1>
+    <h1>Ajouter un Abonnement</h1>
 
-    <!-- Messages de succès ou d'erreur -->
-    <?php if (!empty($successMessage)) { echo "<p class='success'>$successMessage</p>"; } ?>
-    <?php if (!empty($errorMessage)) { echo "<p class='error'>$errorMessage</p>"; } ?>
+    <!-- Affichage des messages -->
+    <?php if (!empty($successMessage)) : ?>
+        <p class="success"><?= $successMessage ?></p>
+    <?php endif; ?>
+
+    <?php if (!empty($errorMessage)) : ?>
+        <p class="error"><?= $errorMessage ?></p>
+    <?php endif; ?>
 
     <form method="post">
-        <label>Nom :</label>
+        <label>Nom de l'abonnement :</label>
         <input type="text" name="nom_abonnement" required>
 
         <label>Prix (€) :</label>
@@ -57,8 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button type="submit">Ajouter</button>
     </form>
 
-    <br>
-    <a href="abonnements.php">Retour</a>
+    <a href="abonnements.php" class="back-link">Retour</a>
 
 </body>
 </html>

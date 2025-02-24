@@ -3,18 +3,35 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include '../bdd.php';
+include '../bdd.php'; // Connexion à la base de données
 
-// Vérifier s'il y a un message après une action
+// Initialisation des messages
 $successMessage = "";
 $errorMessage = "";
 
-if (isset($_GET['success']) && $_GET['success'] == 'suppression') {
-    $successMessage = "Abonnement supprimé avec succès.";
-} elseif (isset($_GET['error']) && $_GET['error'] == 'suppression') {
-    $errorMessage = "Erreur lors de la suppression.";
+// Vérifier les messages passés via GET
+$successType = filter_input(INPUT_GET, 'success', FILTER_DEFAULT);
+$errorType = filter_input(INPUT_GET, 'error', FILTER_DEFAULT);
+
+switch ($successType) {
+    case 'ajout':
+        $successMessage = "Abonnement ajouté avec succès.";
+        break;
+    case 'modification':
+        $successMessage = "Abonnement modifié avec succès.";
+        break;
+    case 'suppression':
+        $successMessage = "Abonnement supprimé avec succès.";
+        break;
 }
 
+switch ($errorType) {
+    case 'suppression':
+        $errorMessage = "Erreur lors de la suppression.";
+        break;
+}
+
+// Récupérer tous les abonnements
 $query = $pdo->query("SELECT * FROM abonnement");
 $abonnements = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -24,7 +41,7 @@ $abonnements = $query->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des abonnements</title>
+    <title>Liste des Abonnements</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; }
         table { width: 80%; margin: auto; border-collapse: collapse; margin-top: 20px; }
@@ -39,42 +56,40 @@ $abonnements = $query->fetchAll(PDO::FETCH_ASSOC);
     </style>
 </head>
 <body>
-<?php
-if (isset($_GET['success']) && $_GET['success'] == 'ajout') {
-    echo "<p class='success'>Abonnement ajouté avec succès.</p>";
-}
-?>
 
-    <h1>Liste des abonnements</h1>
+    <h1>Liste des Abonnements</h1>
 
-    <!-- Affichage des messages de confirmation -->
-    <?php if (!empty($successMessage)) { echo "<p class='success'>$successMessage</p>"; } ?>
-    <?php if (!empty($errorMessage)) { echo "<p class='error'>$errorMessage</p>"; } ?>
+    <!-- Affichage des messages -->
+    <?php if (!empty($successMessage)) : ?>
+        <p class="success"><?= $successMessage ?></p>
+    <?php endif; ?>
+
+    <?php if (!empty($errorMessage)) : ?>
+        <p class="error"><?= $errorMessage ?></p>
+    <?php endif; ?>
 
     <table>
         <tr>
             <th>ID</th>
             <th>Nom</th>
             <th>Prix (€)</th>
-            <th>Durée</th>
             <th>Actions</th>
         </tr>
-        <?php foreach ($abonnements as $abonnement) { ?>
+        <?php foreach ($abonnements as $abonnement) : ?>
             <tr>
                 <td><?= htmlspecialchars($abonnement['id_abonnement']) ?></td>
                 <td><?= htmlspecialchars($abonnement['nom_abonnement']) ?></td>
-                <td><?= number_format($abonnement['prix_abonnement']) ?> €</td>
-                <td>1 an</td>
+                <td><?= number_format($abonnement['prix_abonnement'], 2, ',', ' ') ?> €</td>
                 <td class="actions">
                     <a class="edit" href="modifier_abonnement.php?id_abonnement=<?= $abonnement['id_abonnement'] ?>">Modifier</a>
                     <a class="delete" href="supprimer_abonnement.php?id_abonnement=<?= $abonnement['id_abonnement'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet abonnement ?')">Supprimer</a>
                 </td>
             </tr>
-        <?php } ?>
+        <?php endforeach; ?>
     </table>
 
     <br>
-    <a href="ajouter_abonnement.php" class="add-button">+ Ajouter un abonnement</a>
+    <a href="ajouter_abonnement.php" class="add-button">Ajouter un Abonnement</a>
 
 </body>
 </html>
