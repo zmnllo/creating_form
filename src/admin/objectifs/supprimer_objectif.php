@@ -1,9 +1,11 @@
 <?php
+session_start();
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include '../bdd.php'; 
-
+include '../administrateur/config.php';
+                                    
 $id_objectif = filter_input(INPUT_GET, 'id_objectif', FILTER_VALIDATE_INT);
 
 if (!$id_objectif) {

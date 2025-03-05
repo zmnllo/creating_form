@@ -29,21 +29,22 @@
     </div>
     <nav class="menu">
       <ul>
-        <li><a href="index">ACCUEIL</a></li>
+        <li><a href="../pages/index.php">ACCUEIL</a></li>
         <li><a href="#tarif">TARIFS</a></li>
         <li><a href="#contact">CONTACT</a></li>
-        <li><a href="#inscrire">M'INSCRIRE</a></li>
-        <li><a href="#connecter">ME CONNECTER</a></li>
+
+        <?php if (!isset($_SESSION['adherent_id'])): ?>
+            <li><a href="login_user.php">ME CONNECTER</a></li>
+        <?php else: ?>
+            <li><a href="tdb.php">TABLEAU DE BORD</a></li>
+            <li><a href="entrainement.php">ENTRAÎNEMENTS</a></li>
+            <li><a href="nutrition.php">NUTRITION</a></li>
+            <li><a href="modifier_infos.php">MODIFIER MES INFORMATIONS</a></li>
+            <li><a href="logout_user.php">ME DÉCONNECTER</a></li>
+        <?php endif; ?>
       </ul>
 
-      <hr>
-      <ul>
-        <li><a href="tdb">MON TABLEAU DE BORD</a></li>
-        <li><a href="entrainements">MES ENTRAINEMENTS</a></li>
-        <li><a href="nutrition">NUTRITION</a></li>
-        <li><a href="#Me deconnecter">ME DECONNECTER </a></li>
-        <li><a href="#">MODIFIER MES INFORMATIONS</a></li>
-      </ul>
+ 
 
     </nav>
 

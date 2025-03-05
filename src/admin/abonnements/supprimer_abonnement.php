@@ -1,8 +1,10 @@
 <?php
+session_start();
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include '../bdd.php';
+include '../administrateur/config.php';
 
 // Vérifier si un ID d'abonnement est passé dans l'URL et le sécuriser
 $id_abonnement = filter_input(INPUT_GET, 'id_abonnement', FILTER_VALIDATE_INT);

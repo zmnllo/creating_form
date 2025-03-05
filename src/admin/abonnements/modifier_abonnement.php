@@ -1,15 +1,17 @@
 <?php
+session_start();
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include '../bdd.php';
+include '../administrateur/config.php';
+
 
 $successMessage = "";
 $errorMessage = "";
 
-// Vérifier si un ID est passé dans l'URL (sécurisation)
+// Vérifier si un ID est passé dans l'URL 
 $id_abonnement = filter_input(INPUT_GET, 'id_abonnement', FILTER_VALIDATE_INT);
-
 if (!$id_abonnement) {
     die("Erreur : Aucun ID d'abonnement valide reçu.");
 }

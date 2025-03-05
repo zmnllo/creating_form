@@ -3,7 +3,8 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include '../bdd.php'; // Connexion à la base de données
+include '../administrateur/config.php';
+
 
 // Initialisation des messages
 $successMessage = "";
@@ -51,8 +52,24 @@ $abonnements = $query->fetchAll(PDO::FETCH_ASSOC);
         .error { color: red; font-weight: bold; }
         .actions a { margin: 0 5px; padding: 5px 10px; border-radius: 5px; text-decoration: none; }
         .edit { background-color: #3498db; color: white; }
+        .edit:hover {
+            background: #2980b9;
+        }
         .delete { background-color: #e74c3c; color: white; }
+        .delete:hover {
+            background: #c0392b;
+        }
         .add-button { display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #2ecc71; color: white; text-decoration: none; border-radius: 5px; }
+        .btn-accueil { 
+            background-color:rgb(220, 28, 140); 
+            padding : 10px; 
+            text-decoration: none; 
+            color: white;
+            border-radius: 5px;
+        }
+        .btn-accueil:hover {
+            background: rgb(120, 32, 83);
+        }
     </style>
 </head>
 <body>
@@ -79,17 +96,22 @@ $abonnements = $query->fetchAll(PDO::FETCH_ASSOC);
             <tr>
                 <td><?= htmlspecialchars($abonnement['id_abonnement']) ?></td>
                 <td><?= htmlspecialchars($abonnement['nom_abonnement']) ?></td>
-                <td><?= number_format($abonnement['prix_abonnement'], 2, ',', ' ') ?> €</td>
+                <td><?= number_format($abonnement['prix_abonnement'], 0, ',', ' ') ?> €</td>
                 <td class="actions">
                     <a class="edit" href="modifier_abonnement.php?id_abonnement=<?= $abonnement['id_abonnement'] ?>">Modifier</a>
                     <a class="delete" href="supprimer_abonnement.php?id_abonnement=<?= $abonnement['id_abonnement'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet abonnement ?')">Supprimer</a>
                 </td>
             </tr>
+
         <?php endforeach; ?>
     </table>
 
     <br>
     <a href="ajouter_abonnement.php" class="add-button">Ajouter un Abonnement</a>
+
+
+    <a href="../administrateur/admin.php" class="btn-accueil">Accueil</a>
+
 
 </body>
 </html>
