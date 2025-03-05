@@ -34,9 +34,9 @@
         <li><a href="#contact">CONTACT</a></li>
 
         <?php if (!isset($_SESSION['adherent_id'])): ?>
-            <li><a href="login_user.php">ME CONNECTER</a></li>
+            <li><a href="../admin/administrateur/login_user.php">ME CONNECTER</a></li>
         <?php else: ?>
-            <li><a href="tdb.php">TABLEAU DE BORD</a></li>
+            <li><a href="../pages/tdb.php">TABLEAU DE BORD</a></li>
             <li><a href="entrainement.php">ENTRAÎNEMENTS</a></li>
             <li><a href="nutrition.php">NUTRITION</a></li>
             <li><a href="modifier_infos.php">MODIFIER MES INFORMATIONS</a></li>

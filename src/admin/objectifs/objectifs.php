@@ -55,7 +55,13 @@ $objectifs = $query->fetchAll(PDO::FETCH_ASSOC);
         .delete:hover {
             background: #c0392b;
         }
+        .delete:hover {
+            background: #c0392b;
+        }
         .add-button { display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #2ecc71; color: white; text-decoration: none; border-radius: 5px; }
+        .add-button:hover {
+            background-color:rgb(48, 146, 89);
+        }
         .btn-accueil { 
             background-color:rgb(220, 28, 140); 
             padding : 10px; 
@@ -101,7 +107,7 @@ $objectifs = $query->fetchAll(PDO::FETCH_ASSOC);
     <br>
     <a href="ajouter_objectif.php" class="add-button">Ajouter un Objectif</a>
 
-    <a href="../administrateur/admin.php" class="btn-accueil">Accueil</a>
+    <a href="../administrateur/admin.php" class="btn-accueil">Retour au Tableau de bord</a>
 
 </body>
 </html>

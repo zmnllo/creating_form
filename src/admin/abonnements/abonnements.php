@@ -60,12 +60,16 @@ $abonnements = $query->fetchAll(PDO::FETCH_ASSOC);
             background: #c0392b;
         }
         .add-button { display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #2ecc71; color: white; text-decoration: none; border-radius: 5px; }
+        .add-button:hover {
+            background-color:rgb(48, 146, 89);
+        }
         .btn-accueil { 
             background-color:rgb(220, 28, 140); 
             padding : 10px; 
             text-decoration: none; 
             color: white;
             border-radius: 5px;
+            font-w
         }
         .btn-accueil:hover {
             background: rgb(120, 32, 83);
@@ -110,7 +114,7 @@ $abonnements = $query->fetchAll(PDO::FETCH_ASSOC);
     <a href="ajouter_abonnement.php" class="add-button">Ajouter un Abonnement</a>
 
 
-    <a href="../administrateur/admin.php" class="btn-accueil">Accueil</a>
+    <a href="../administrateur/admin.php" class="btn-accueil">Retour au Tableau de bord</a>
 
 
 </body>

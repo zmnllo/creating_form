@@ -1,6 +1,13 @@
 <?php
 session_start();
-require_once 'db.php';
+require_once '../db.php';
+
+session_start();
+$_SESSION['user_id'] = $user['id_adherent']; // Stocke l'ID de l'utilisateur
+$_SESSION['user_name'] = $user['nom']; // Stocke son nom
+
+header("Location: dashboard_user.php"); // Redirige vers son tableau de bord
+exit();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = trim($_POST['email']);

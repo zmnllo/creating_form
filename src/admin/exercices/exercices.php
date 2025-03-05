@@ -92,7 +92,7 @@ $exercices = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <br>
 <a href="ajouter_exercice.php" class="add-button">+ Ajouter un exercice</a>
 
-<a href="../administrateur/admin.php" class="btn-accueil">Accueil</a>
+<a href="../administrateur/admin.php" class="btn-accueil">Retour au Tableau de bord</a>
 
 </body>
 </html>

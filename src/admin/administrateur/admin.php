@@ -88,6 +88,8 @@ $adminUsername = $_SESSION['admin'];
         <a href="../programmes/programmes.php" class="button-in">📋 Gérer les programmes</a>
         <a href="../exercices/exercices.php" class="button-in">💪 Gérer les exercices</a>
         <a href="add_admin.php" class="button-in">🛠️ Gérer les admins</a> 
+        <a href="../adherent/create_user.php" class="button-in">Créer un user</a>
+
         <a href="logout.php" class="logout-button">🚪 ME DÉCONNECTER</a>
     </div>
 
