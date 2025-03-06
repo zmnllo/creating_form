@@ -137,7 +137,7 @@ include '../components/hero.php';
 
 </section>
 
-<section class="section">
+<section class="section" id="tarif">
     <div class="section__content">
         <h3 class="section__title">Découvrez nos abonnements</h3>
         <p class="section__sous_titre">Il n’y a aucun frais d’inscription ni de badge d’entrée. L’entrée se fait par

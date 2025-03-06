@@ -58,8 +58,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin: 10px;
             width: 250px;
         }
-        .back-link { display: block; margin-top: 20px; text-decoration: none; color: #3498db; font-weight: bold; }
-    </style>
+        .back-link {             
+            display: block;
+            margin-top: 15px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold; 
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }    
+        </style>
 </head>
 <body>
 

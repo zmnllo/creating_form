@@ -75,24 +75,22 @@ foreach ($programmes as $prog) {
             padding: 5px 10px;
             border-radius: 5px;
             text-decoration: none;
-            font-weight: bold;
         }
         .edit { background-color: #3498db; color: white; }
         .edit:hover { background: #2980b9; }
         .delete { background-color: #e74c3c; color: white; }
         .delete:hover { background: #c0392b; }
-        .program-title { font-size: 22px; font-weight: bold; margin-top: 20px; }
+        .program-title { font-size: 22px; margin-top: 20px; }
         .modify-delete-links { margin-top: 10px; }
         .modify-delete-links a {
             margin: 5px;
             display: inline-block;
             padding: 8px 15px;
             border-radius: 5px;
-            font-weight: bold;
             text-decoration: none;
         }
-        .edit-program { background-color: #2ecc71; color: white; }
-        .edit-program:hover { background-color: rgb(48, 146, 89); }
+        .edit-program { background-color: #3498db; color: white; }
+        .edit-program:hover { background: #2980b9; }
         .delete-program { background-color: #e74c3c; color: white; }
         .delete-program:hover { background: #c0392b; }
         .btn-accueil { 
@@ -104,6 +102,16 @@ foreach ($programmes as $prog) {
         }
         .btn-accueil:hover { background: rgb(120, 32, 83); }
         .accueil { margin: 30px; }
+        .btn-ajout {
+            background-color: #2ecc71;
+            padding: 10px; 
+            text-decoration: none; 
+            color: white;
+            border-radius: 5px;
+        }
+        .btn-ajout:hover {
+            background-color:rgb(48, 146, 89);
+        }
     </style>
 </head>
 <body>
@@ -137,7 +145,6 @@ foreach ($programmes as $prog) {
                             <td><?= $exercice['repetitions'] ?></td>
                             <td><?= $exercice['temps'] ?></td>
                             <td class="actions">
-                                <a href="modifier_exercice.php?id_exercice=<?= $exercice['id_exercice'] ?>" class="edit">Modifier</a>
                                 <a href="supprimer_exercice.php?id_exercice=<?= $exercice['id_exercice'] ?>" class="delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet exercice ?')">Supprimer</a>
                             </td>
                         </tr>
@@ -154,7 +161,10 @@ foreach ($programmes as $prog) {
 <?php endforeach; ?>
 
 <div class="accueil">
-    <a href="../administrateur/admin.php" class="btn-accueil">Retour au Tableau de bord</a>
+
+    <a href="./ajouter_programme.php" class="btn-ajout">+ Ajouter un programme</a>
+
+    <a href="../administrateur/admin.php" class="btn-accueil">Retour</a>
 </div>
 
 </body>

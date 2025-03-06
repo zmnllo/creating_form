@@ -1,13 +1,9 @@
 <?php
 session_start();
-require_once '../db.php';
+require_once '../db.php'; // Assure-toi que le chemin est bon
+require_once '../../layouts/header.php'; // Inclusion du header
 
-session_start();
-$_SESSION['user_id'] = $user['id_adherent']; // Stocke l'ID de l'utilisateur
-$_SESSION['user_name'] = $user['nom']; // Stocke son nom
 
-header("Location: dashboard_user.php"); // Redirige vers son tableau de bord
-exit();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = trim($_POST['email']);
@@ -23,16 +19,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION['nom'] = $user['nom'];
 
             if ($user['mdp_temporaire'] == 1) {
-                header("Location: change_password.php");
+                header("Location: ../admin/adherent/change_password.php");
                 exit();
+                
             }
-            header("Location: tdb.php");
+            header("Location: ../../pages/tdb.php");
             exit();
         } else {
-            echo "Identifiants incorrects.";
+            $error = "Identifiants incorrects.";
         }
     } catch (PDOException $e) {
-        echo "Erreur : " . $e->getMessage();
+        $error = "Erreur : " . $e->getMessage();
     }
 }
 ?>
@@ -42,19 +39,76 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion</title>
+    <title>Connexion à votre espace personnel</title>
+    <link rel="stylesheet" href="../../styles/style.css"> 
+    <style>
+
+
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            text-align: center;
+            background: #0d0d0d;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .login-form input {
+            width: 93%;
+            padding: 15px;
+            margin: 10px 0px;
+            border: none;
+            border-radius: 5px;
+            background: #1e1e1e;
+            color: white;
+            font-size: small;
+        }
+
+        .login-form .forgot-password {
+            font-size: 14px;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .btn-connexion {
+            background: linear-gradient(45deg, #df3e3f, #e55a1c);
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0px;
+        }
+
+        .btn-connexion:hover {
+            background: linear-gradient(45deg,rgb(165, 50, 50),rgb(172, 78, 34));
+        }
+
+    </style>
 </head>
 <body>
-    <h2>Connexion</h2>
-    <form action="login_user.php" method="post">
-        <label for="email">Email :</label>
-        <input type="email" name="email" required><br>
 
-        <label for="mot_de_passe">Mot de passe :</label>
-        <input type="password" name="mot_de_passe" required><br>
+<div class="login-container">
+    <h2>Connexion à votre espace personnel</h2>
 
-        <button type="submit">Se connecter</button>
+    <?php if (isset($error)) : ?>
+        <p class="error-message"><?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
+
+    <form action="login_user.php" method="post" class="login-form">
+       
+        <input type="email" name="email" placeholder="Nom d'utilisateur" required>
+        <input type="password" name="mot_de_passe" placeholder="Mot de passe" required>
+
+        <a href="/creating_form/src/admin/adherent/change_password.php" class="forgot-password">Pas de mot de passe ? Créez-le ici.</a>
+
+        <button type="submit" class="btn-connexion">Se connecter</button>
     </form>
+</div>
+
+<?php require_once '../../layouts/footer.php'; ?> 
+
 </body>
 </html>
-

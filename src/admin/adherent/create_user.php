@@ -1,6 +1,6 @@
 <?php
 
-require_once '../db.php'; // Essaye ce chemin si ton db.php est à la racine de /admin
+require_once '../db.php'; 
 
 if (!isset($pdo)) {
     die("Erreur : La connexion à la base de données n'est pas établie.");
@@ -112,14 +112,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             background: #2980b9;
         }
 
-        .back-link {
+        .back-link {             
             display: block;
             margin-top: 15px;
             color: #3498db;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: bold; 
         }
-
         .back-link:hover {
             text-decoration: underline;
         }
@@ -151,7 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <button type="submit">Créer le compte</button>
     </form>
 
-    <a href="../administrateur/admin.php" class="back-link">Retour au tableau de bord</a>
+    <a href="../administrateur/admin.php" class="back-link">Retour</a>
 </div>
 
 </body>

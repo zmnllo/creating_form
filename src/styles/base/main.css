@@ -34,22 +34,10 @@ body {
   margin-bottom: 15px;
 }
 
-
-
-.section__sous_titre {
-  text-align: center;
-  font-size: var(--M14);
-  margin-bottom: 50px;
+html {
+  scroll-behavior: smooth;
 }
 
-.section {
-  margin-top: 70px;
-}
-
-.section__tbd_title {
-  margin: 20px;
-  font-size: var(--M20);
-}
 
 
 

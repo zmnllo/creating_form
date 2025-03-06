@@ -4,7 +4,7 @@ include 'config.php';
 
 // Redirection si admin déjà co
 if (isset($_SESSION['admin'])) {
-    header("Location: admin.php");
+    header("Location: login_user.php");
     exit();
 }
 

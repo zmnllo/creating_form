@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_password'])) {
     <title>Gestion des Admins</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        .container { width: 350px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background: #f9f9f9; }
+        .container { width: 350px; margin: auto; margin-bottom: 20px; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background: #f9f9f9; }
         input { 
             width: 93%; 
             padding: 10px; 
@@ -90,6 +90,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_password'])) {
         button:hover { background: #218838; }
         .error { color: red; font-weight: bold; }
         .success { color: green; font-weight: bold; }
+        .btn-accueil { 
+            background-color:rgb(220, 28, 140); 
+            padding : 10px; 
+            text-decoration: none; 
+            color: white;
+            border-radius: 5px;
+        }
+        .btn-accueil:hover {
+            background: rgb(120, 32, 83);
+        }
     </style>
 </head>
 <body>
@@ -121,6 +131,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_password'])) {
     </form>
 
 </div>
+
+<br>
+
+<a href="../administrateur/admin.php" class="btn-accueil">Retour</a>
 
 </body>
 </html>

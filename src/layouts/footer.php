@@ -3,18 +3,18 @@
 
 
   <div>
-    <img src="../assets/creatingform.webp" alt="Logo" class="logo">
+    <img src="/creating_form/src/assets/creatingform.webp" alt="Logo" class="logo">
   </div>
 
   <hr class="hr_footer">
 
-  <div class="footer_contact">
+  <div class="footer_contact" id="contact">
     <p>CONTACT</p>
     <p>9 RUE DE SELONCOURT <br> 25400 AUDINCOURT</p>
     <p>+33 6 41 19 82 43</p>
   </div>
   <div class="footer_facebook">
-    <img src="../assets/facebook.webp" alt="Facebook">
+    <img src="/creating_form/src/assets/facebook.webp" alt="Facebook">
   </div>
 
   <hr class="hr_footer">

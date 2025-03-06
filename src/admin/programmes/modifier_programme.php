@@ -5,13 +5,13 @@ ini_set('display_errors', 1);
 
 include '../administrateur/config.php';
 
-// Verif si l'id est passé
+// Vérifier si un ID de programme est reçu
 $id_programme = filter_input(INPUT_GET, 'id_programme', FILTER_VALIDATE_INT);
 if (!$id_programme) {
     die("Erreur : Aucun ID de programme valide reçu.");
 }
 
-// Récupération des programmes
+// Récupérer les détails du programme
 $query = "SELECT * FROM programme WHERE id_programme = :id_programme";
 $stmt = $pdo->prepare($query);
 $stmt->bindParam(':id_programme', $id_programme, PDO::PARAM_INT);
@@ -22,7 +22,12 @@ if (!$programme) {
     die("Erreur : Programme introuvable.");
 }
 
-// Récupérer les exos du programme
+// Récupérer les objectifs disponibles
+$queryObjectifs = "SELECT * FROM objectif";
+$stmtObjectifs = $pdo->query($queryObjectifs);
+$objectifs = $stmtObjectifs->fetchAll(PDO::FETCH_ASSOC);
+
+// Récupérer les exercices existants du programme
 $queryExercices = "SELECT e.*, et.nom_exercice 
                    FROM exercice e 
                    JOIN exercice_type et ON e.id_exercice_type = et.id_exercice_type
@@ -32,47 +37,61 @@ $stmtExercices->bindParam(':id_programme', $id_programme, PDO::PARAM_INT);
 $stmtExercices->execute();
 $exercices = $stmtExercices->fetchAll(PDO::FETCH_ASSOC);
 
-// Récupérer les types d'exos
+// Récupérer les types d'exercices
 $queryTypes = "SELECT * FROM exercice_type";
 $stmtTypes = $pdo->query($queryTypes);
 $typesExercices = $stmtTypes->fetchAll(PDO::FETCH_ASSOC);
 
-// Vérifier si le formulaire a été soumis
+// Vérifier si le formulaire est soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Modification du nom du prog
-    if (!empty($_POST['nom_programme'])) {
-        $nom_programme = $_POST['nom_programme'];
-        $updateQuery = "UPDATE programme SET nom_programme = :nom_programme WHERE id_programme = :id_programme";
+    $nom_programme = trim($_POST['nom_programme']);
+    $id_objectif = isset($_POST['id_objectif']) ? intval($_POST['id_objectif']) : null;
+    $niveau = trim($_POST['niveau']); // Débutant, Intermédiaire, Avancé
+
+    // Vérifier que tous les champs requis sont remplis
+    if (!empty($nom_programme) && !empty($id_objectif) && !empty($niveau)) {
+        $updateQuery = "UPDATE programme 
+                        SET nom_programme = :nom_programme, id_objectif = :id_objectif, niveau = :niveau 
+                        WHERE id_programme = :id_programme";
         $stmt = $pdo->prepare($updateQuery);
         $stmt->bindParam(':nom_programme', $nom_programme, PDO::PARAM_STR);
+        $stmt->bindParam(':id_objectif', $id_objectif, PDO::PARAM_INT);
+        $stmt->bindParam(':niveau', $niveau, PDO::PARAM_STR);
         $stmt->bindParam(':id_programme', $id_programme, PDO::PARAM_INT);
         $stmt->execute();
+    } else {
+        die("Erreur : Tous les champs sont obligatoires.");
     }
 
-    // Modification des exos existants
+    // Modifier les exercices existants
     if (!empty($_POST['exercices'])) {
         foreach ($_POST['exercices'] as $id_exercice => $data) {
-            $id_exercice_type = $data['id_exercice_type'];
-            $repetitions = !empty($data['repetitions']) ? $data['repetitions'] : NULL;
-            $temps = !empty($data['temps']) ? $data['temps'] : NULL;
+            if (!empty($data['id_exercice_type'])) {
+                $id_exercice_type = $data['id_exercice_type'];
+                $repetitions = !empty($data['repetitions']) ? $data['repetitions'] : null;
+                $temps = !empty($data['temps']) ? $data['temps'] : null;
 
-            $updateExoQuery = "UPDATE exercice SET id_exercice_type = :id_exercice_type, repetitions = :repetitions, temps = :temps WHERE id_exercice = :id_exercice";
-            $stmtExo = $pdo->prepare($updateExoQuery);
-            $stmtExo->bindParam(':id_exercice_type', $id_exercice_type, PDO::PARAM_INT);
-            $stmtExo->bindParam(':repetitions', $repetitions);
-            $stmtExo->bindParam(':temps', $temps);
-            $stmtExo->bindParam(':id_exercice', $id_exercice, PDO::PARAM_INT);
-            $stmtExo->execute();
+                $updateExoQuery = "UPDATE exercice 
+                                   SET id_exercice_type = :id_exercice_type, repetitions = :repetitions, temps = :temps 
+                                   WHERE id_exercice = :id_exercice";
+                $stmtExo = $pdo->prepare($updateExoQuery);
+                $stmtExo->bindParam(':id_exercice_type', $id_exercice_type, PDO::PARAM_INT);
+                $stmtExo->bindParam(':repetitions', $repetitions);
+                $stmtExo->bindParam(':temps', $temps);
+                $stmtExo->bindParam(':id_exercice', $id_exercice, PDO::PARAM_INT);
+                $stmtExo->execute();
+            }
         }
     }
 
-    // Ajout d'un exo
+    // Ajouter un nouvel exercice
     if (!empty($_POST['new_exercice']['id_exercice_type'])) {
         $id_exercice_type = $_POST['new_exercice']['id_exercice_type'];
-        $repetitions = !empty($_POST['new_exercice']['repetitions']) ? $_POST['new_exercice']['repetitions'] : NULL;
-        $temps = !empty($_POST['new_exercice']['temps']) ? $_POST['new_exercice']['temps'] : NULL;
+        $repetitions = !empty($_POST['new_exercice']['repetitions']) ? $_POST['new_exercice']['repetitions'] : null;
+        $temps = !empty($_POST['new_exercice']['temps']) ? $_POST['new_exercice']['temps'] : null;
 
-        $insertExoQuery = "INSERT INTO exercice (id_programme, id_exercice_type, repetitions, temps) VALUES (:id_programme, :id_exercice_type, :repetitions, :temps)";
+        $insertExoQuery = "INSERT INTO exercice (id_programme, id_exercice_type, repetitions, temps) 
+                           VALUES (:id_programme, :id_exercice_type, :repetitions, :temps)";
         $stmtInsertExo = $pdo->prepare($insertExoQuery);
         $stmtInsertExo->bindParam(':id_programme', $id_programme, PDO::PARAM_INT);
         $stmtInsertExo->bindParam(':id_exercice_type', $id_exercice_type, PDO::PARAM_INT);
@@ -92,9 +111,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Modifier un programme</title>
     <style>
-        body { font-family: Montserrat, sans-serif; text-align: center; }
+        body { font-family: Arial, sans-serif; text-align: center; }
         form { display: inline-block; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9; }
         select, input, button { padding: 10px; margin: 10px; width: 250px; }
+        .back-link { display: block; margin-top: 15px; color: #3498db; text-decoration: none; font-weight: bold; }
+        .back-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -105,40 +126,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label>Nom du programme :</label>
     <input type="text" name="nom_programme" value="<?= htmlspecialchars($programme['nom_programme']) ?>" required>
 
-    <h2>Modifier les exercices</h2>
-    <?php foreach ($exercices as $exo) { ?>
-        <div>
-            <label>Exercice :</label>
-            <select name="exercices[<?= $exo['id_exercice'] ?>][id_exercice_type]">
-                <?php foreach ($typesExercices as $type) { ?>
-                    <option value="<?= $type['id_exercice_type'] ?>" <?= $type['id_exercice_type'] == $exo['id_exercice_type'] ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($type['nom_exercice']) ?>
-                    </option>
-                <?php } ?>
-            </select>
-            <input type="text" name="exercices[<?= $exo['id_exercice'] ?>][repetitions]" value="<?= htmlspecialchars($exo['repetitions'] ?? '') ?>" placeholder="Répétitions">
-            <input type="text" name="exercices[<?= $exo['id_exercice'] ?>][temps]" value="<?= htmlspecialchars($exo['temps'] ?? '') ?>" placeholder="Temps">
-        </div>
-    <?php } ?>
+    <label>Objectif :</label>
+    <select name="id_objectif" required>
+        <?php foreach ($objectifs as $objectif) { ?>
+            <option value="<?= $objectif['id_objectif'] ?>" <?= ($objectif['id_objectif'] == $programme['id_objectif']) ? 'selected' : '' ?>>
+                <?= htmlspecialchars($objectif['nom_objectif']) ?>
+            </option>
+        <?php } ?>
+    </select>
 
-    <h2>Ajouter un nouvel exercice</h2>
-    <div>
-        <label>Exercice :</label>
-        <select name="new_exercice[id_exercice_type]">
-            <option value="">-- Choisir un exercice --</option>
-            <?php foreach ($typesExercices as $type) { ?>
-                <option value="<?= $type['id_exercice_type'] ?>"><?= htmlspecialchars($type['nom_exercice']) ?></option>
-            <?php } ?>
-        </select>
-        <input type="text" name="new_exercice[repetitions]" placeholder="Répétitions">
-        <input type="text" name="new_exercice[temps]" placeholder="Temps">
-    </div>
+    <label>Niveau :</label>
+    <select name="niveau" required>
+        <option value="Débutant" <?= ($programme['niveau'] == 'Débutant') ? 'selected' : '' ?>>Débutant</option>
+        <option value="Intermédiaire" <?= ($programme['niveau'] == 'Intermédiaire') ? 'selected' : '' ?>>Intermédiaire</option>
+        <option value="Avancé" <?= ($programme['niveau'] == 'Avancé') ? 'selected' : '' ?>>Avancé</option>
+    </select>
 
     <button type="submit">Mettre à jour</button>
 </form>
 
-<br>
-<a href="programmes.php">Retour</a>
+<a href="programmes.php" class="back-link">Retour</a>
 
 </body>
 </html>

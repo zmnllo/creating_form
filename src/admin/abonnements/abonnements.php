@@ -69,7 +69,6 @@ $abonnements = $query->fetchAll(PDO::FETCH_ASSOC);
             text-decoration: none; 
             color: white;
             border-radius: 5px;
-            font-w
         }
         .btn-accueil:hover {
             background: rgb(120, 32, 83);
@@ -111,10 +110,10 @@ $abonnements = $query->fetchAll(PDO::FETCH_ASSOC);
     </table>
 
     <br>
-    <a href="ajouter_abonnement.php" class="add-button">Ajouter un Abonnement</a>
+    <a href="ajouter_abonnement.php" class="add-button">+ Ajouter un Abonnement</a>
 
 
-    <a href="../administrateur/admin.php" class="btn-accueil">Retour au Tableau de bord</a>
+    <a href="../administrateur/admin.php" class="btn-accueil">Retour</a>
 
 
 </body>

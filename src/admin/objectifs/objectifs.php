@@ -105,9 +105,9 @@ $objectifs = $query->fetchAll(PDO::FETCH_ASSOC);
     </table>
 
     <br>
-    <a href="ajouter_objectif.php" class="add-button">Ajouter un Objectif</a>
+    <a href="ajouter_objectif.php" class="add-button">+ Ajouter un Objectif</a>
 
-    <a href="../administrateur/admin.php" class="btn-accueil">Retour au Tableau de bord</a>
+    <a href="../administrateur/admin.php" class="btn-accueil">Retour</a>
 
 </body>
 </html>
