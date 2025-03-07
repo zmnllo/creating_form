@@ -1,10 +1,12 @@
-<?php include '../layouts/header.php';
-include '../components/hero.php';
+<?php 
+include './layouts/header.php';
+include './components/hero.php';
+
 ?>
 
 <section class="section">
     <div>
-        <img src="../assets/creatingform.webp" alt="Logo" aria-label="" class="logo">
+        <img src="./assets/creatingform.webp" alt="Logo" aria-label="" class="logo">
     </div>
     <p class="intro">Fondée par Manuel Garcia à Audincourt, est née de sa passion pour le sport et de son envie de
         partager cette
@@ -17,7 +19,7 @@ include '../components/hero.php';
     <div class="card">
         <div class="card__caption">
             <div>
-                <img src="../assets/icon1.webp" alt="Icon musculation" aria-label="" class="intro-icons">
+                <img src="./assets/icon1.webp" alt="Icon musculation" aria-label="" class="intro-icons">
             </div>
             <div>
                 <h3 class="intro_title">+ DE 180 ADHÉRENTS</h3>
@@ -29,7 +31,7 @@ include '../components/hero.php';
     <div class="card">
         <div class="card__caption">
             <div>
-                <img src="../assets/icon2.webp" alt="Icon musculation" aria-label="" class="intro-icons">
+                <img src="./assets/icon2.webp" alt="Icon musculation" aria-label="" class="intro-icons">
             </div>
             <div>
                 <h3 class="intro_title">2 COACHS</h3>
@@ -42,7 +44,7 @@ include '../components/hero.php';
     <div class="card">
         <div class="card__caption">
             <div>
-                <img src="../assets/icon3.webp" alt="Icon animateur" aria-label="" class="intro-icons">
+                <img src="./assets/icon3.webp" alt="Icon animateur" aria-label="" class="intro-icons">
             </div>
             <div>
                 <h3 class="intro_title">19 ANIMATEURS</h3>
@@ -70,7 +72,7 @@ include '../components/hero.php';
         
         </div>
         <div>
-            <img src="../assets/musculation.webp" alt="Kettlebell" aria-label="" class="img-services">
+            <img src="./assets/musculation.webp" alt="Kettlebell" aria-label="" class="img-services">
         </div>
     </div>
 
@@ -80,7 +82,7 @@ include '../components/hero.php';
             
         </div>
         <div>
-            <img src="../assets/pdc.webp" alt="Femme sportive" aria-label="" class="img-services">
+            <img src="./assets/pdc.webp" alt="Femme sportive" aria-label="" class="img-services">
         </div>
     </div>
 
@@ -90,7 +92,7 @@ include '../components/hero.php';
             
         </div>
         <div>
-            <img src="../assets/cardio.webp" alt="Homme en train de faire de la corde a sauter" aria-label=""
+            <img src="./assets/cardio.webp" alt="Homme en train de faire de la corde a sauter" aria-label=""
                 class="img-services">
         </div>
     </div>
@@ -107,28 +109,28 @@ include '../components/hero.php';
 
         <div>
             <div>
-                <img src="../assets/bord.png" alt="Icon tableau de bord" aria-label="">
+                <img src="./assets/bord.png" alt="Icon tableau de bord" aria-label="">
             </div>
             <p>Renseignez votre tableau de bord (âge, poids, passé sportif, objectif).</p>
         </div>
 
         <div>
             <div>
-                <img src="../assets/cible.png" alt="Icon cible objectif" aria-label="">
+                <img src="./assets/cible.png" alt="Icon cible objectif" aria-label="">
             </div>
-            <p>Ciblez vos objectifs (tonification, perte de poids, améliorer son endurance...).</p>
+            <p>Ciblez vos objectifs (tonification, perte de poids, améliorer son endurance.).</p>
         </div>
 
         <div>
             <div>
-                <img src="../assets/creation.png" alt="Icon création de programme" aria-label="">
+                <img src="./assets/creation.png" alt="Icon création de programme" aria-label="">
             </div>
             <p>Créé votre programmes grâce à notre palette d’entraînement.</p>
         </div>
 
         <div>
             <div>
-                <img src="../assets/apple.png" alt="Icon nutrition pomme" aria-label="">
+                <img src="./assets/apple.png" alt="Icon nutrition pomme" aria-label="">
             </div>
             <p>Découvrez notre tableau nutritionnel accompagné d'idées de plats 100% fit.</p>
         </div>
@@ -273,4 +275,4 @@ include '../components/hero.php';
     </form>
 </section>
 
-<?php include '../layouts/footer.php'; ?>
+<?php include './layouts/footer.php'; ?>

@@ -1,8 +1,9 @@
 <?php
 session_start();
-require_once '../db.php'; // Assure-toi que le chemin est bon
-require_once '../../layouts/header.php'; // Inclusion du header
+include('../administrateur/config.php');
 
+require_once '../db.php'; 
+require_once '../../layouts/header.php'; 
 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
