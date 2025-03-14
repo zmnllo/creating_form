@@ -1,43 +1,33 @@
 <?php
 session_start();
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 include '../administrateur/config.php';
 
-$id_programme = filter_input(INPUT_GET, 'id_programme', FILTER_VALIDATE_INT);
-
-if (!$id_programme) {
-    header("Location: programmes.php?error=suppression");
+if (!isset($_GET['id_programme']) || !is_numeric($_GET['id_programme'])) {
+    $_SESSION['error_message'] = "Erreur : ID de programme invalide.";
+    header("Location: programmes.php");
     exit();
 }
+
+$id_programme = $_GET['id_programme'];
 
 try {
-    // début
-    $pdo->beginTransaction();
+    // Supprimer les exercices liés à ce programme
+    $stmt = $pdo->prepare("DELETE FROM exercice WHERE id_programme = :id_programme");
+    $stmt->execute(['id_programme' => $id_programme]);
 
-    // Exos relié au prog
-    $deleteExercices = "DELETE FROM exercice WHERE id_programme = :id_programme";
-    $stmt = $pdo->prepare($deleteExercices);
-    $stmt->bindParam(':id_programme', $id_programme, PDO::PARAM_INT);
-    $stmt->execute();
+    // Supprimer le programme lui-même
+    $stmt = $pdo->prepare("DELETE FROM programme WHERE id_programme = :id_programme");
+    $stmt->execute(['id_programme' => $id_programme]);
 
-    // Supprimer le programme
-    $query = "DELETE FROM programme WHERE id_programme = :id_programme";
-    $stmt = $pdo->prepare($query);
-    $stmt->bindParam(':id_programme', $id_programme, PDO::PARAM_INT);
-    $stmt->execute();
-
-    // fin
-    $pdo->commit();
-
-    header("Location: programmes.php?success=suppression");
+    $_SESSION['success_message'] = "Programme supprimé avec succès.";
+    header("Location: programmes.php");
     exit();
-
-} catch (Exception $e) {
-    // Annuler en cas d'erreur
-    $pdo->rollBack();
-    header("Location: programmes.php?error=suppression");
+} catch (PDOException $e) {
+    $_SESSION['error_message'] = "Erreur lors de la suppression : " . $e->getMessage();
+    header("Location: programmes.php");
     exit();
 }
+?>

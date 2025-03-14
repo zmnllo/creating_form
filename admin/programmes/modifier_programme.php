@@ -6,10 +6,11 @@ ini_set('display_errors', 1);
 include '../administrateur/config.php';
 
 // Vérifier si un ID de programme est reçu
-$id_programme = filter_input(INPUT_GET, 'id_programme', FILTER_VALIDATE_INT);
+$id_programme = $_GET['id_programme'] ?? null;
 if (!$id_programme) {
-    die("Erreur : Aucun ID de programme valide reçu.");
+    die("Erreur : Aucun ID de programme valide reçu. (ID manquant dans l'URL)");
 }
+
 
 // Récupérer le programme actuel
 $query = "SELECT * FROM programme WHERE id_programme = :id_programme";
@@ -42,6 +43,7 @@ $typesExercices = $pdo->query("SELECT * FROM exercice_type")->fetchAll(PDO::FETC
 // Vérifier si le formulaire est soumis
 $successMessage = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
     if (isset($_POST['update_programme'])) {
         // Mise à jour du programme
         $nom_programme = $_POST['nom_programme'];
@@ -87,17 +89,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Modifier un programme</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        form { display: inline-block; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9; }
-        select, input, button { padding: 10px; margin: 10px; width: 250px; }
-        .back-link { display: block; margin-top: 15px; color: #3498db; text-decoration: none; font-weight: bold; }
-        .back-link:hover { text-decoration: underline; }
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+        body { 
+            font-family: Montserrat; 
+            text-align: center; 
+            background:#0D0D0D; 
+            color: #ebebeb; 
+        }
+        form { display: inline-block; padding: 20px; border: 1px solid #232323; border-radius: 10px;             background: radial-gradient(circle, #2B3C43, #1E2A2F);
+        }
+        select, input, button { 
+            padding: 10px; 
+            margin: 10px; 
+            width: 250px; 
+            border-radius: 20px;
+            background:rgba(13, 13, 13, 0.4);
+            color: #ebebeb;
+            border: 0px;
+        }
         .success { color: green; font-weight: bold; }
+        .back-link {             
+            display: block;
+            margin-top: 15px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold; 
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }    
+
+        .add-button { 
+            margin: 15px;
+            display: inline-block; 
+            margin-top: 20px; 
+            padding: 10px 15px; 
+            background: linear-gradient(180deg, #df3e3f, #e55a1c);
+            color: white; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            border: none;
+        } 
     </style>
 </head>
 <body>
 
-<h1>Modifier le programme</h1>
+<h2>Modifier le programme</h2>
 
 <?php if (!empty($successMessage)) : ?>
     <p class="success"><?= $successMessage ?></p>
@@ -128,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php } ?>
     </select>
 
-    <button type="submit">Enregistrer</button>
+    <button class="add-button" type="submit">Enregistrer</button>
 </form>
 
 <h2>Ajouter un nouvel exercice</h2>
@@ -146,7 +184,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <input type="text" name="new_exercice[repetitions]" placeholder="Répétitions">
     <input type="text" name="new_exercice[temps]" placeholder="Temps">
     
-    <button type="submit">Ajouter</button>
+    <button class="add-button" type="submit">Ajouter</button>
 </form>
 
 <a href="programmes.php" class="back-link">Retour</a>

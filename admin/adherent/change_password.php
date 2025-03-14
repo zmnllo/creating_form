@@ -1,44 +1,33 @@
 <?php
+ob_start(); // Active le buffer de sortie pour éviter l'erreur de header
+session_start();
+require_once '../db.php';
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+if (!isset($_SESSION['adherent_id'])) {
+    header("Location: login_user.php");
+    exit();
 }
 
-require_once '../db.php'; 
-require_once '../../layouts/header.php'; 
-
-
-
-
-//if (!isset($_SESSION['adherent_id'])) {
-    //header("Location: login_user.php");
-    //exit();
-//}
-
-// Vérifier si le formulaire est soumis
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $nouveau_mdp = $_POST['nouveau_mdp'];
+    $nouveau_mdp = trim($_POST['nouveau_mdp']);
+    $confirmation = trim($_POST['confirmation']);
 
-    // Vérifier que le nouveau mot de passe n'est pas vide
-    if (!empty($nouveau_mdp)) {
-        $nouveau_mdp_hash = password_hash($nouveau_mdp, PASSWORD_DEFAULT);
-        
+    if (!empty($nouveau_mdp) && $nouveau_mdp === $confirmation) {
         try {
-            // Mettre à jour le mot de passe
             $stmt = $pdo->prepare("UPDATE adherent SET mot_de_passe = ?, mdp_temporaire = 0 WHERE id_adherent = ?");
-            $stmt->execute([$nouveau_mdp_hash, $_SESSION['adherent_id']]);
+            $stmt->execute([$nouveau_mdp, $_SESSION['adherent_id']]);
 
-            // Déconnection après modif du mdp
-            session_destroy();
+            session_destroy(); 
             header("Location: login_user.php?success=mdp_modifie");
             exit();
         } catch (PDOException $e) {
-            echo "Erreur : " . $e->getMessage();
+            $error = "Erreur : " . $e->getMessage();
         }
     } else {
-        echo "Le champ ne peut pas être vide.";
+        $error = "Les mots de passe ne correspondent pas.";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -70,11 +59,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             font-size: small;
         }
 
-        .mdp-form .forgot-password {
-            font-size: 14px;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 20px;
+        .password-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-container input {
+            width: 100%;
+            padding-right: 40px;
+        }
+
+        .password-container i {
+            position: absolute;
+            right: 10px;
+            cursor: pointer;
+            color: gray;
         }
 
         .btn-modifier {
@@ -91,25 +91,68 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         .btn-modifier:hover {
             background: linear-gradient(45deg,rgb(165, 50, 50),rgb(172, 78, 34));
         }
-
-
     </style>
 </head>
 <body>
-
 
 <div class="mdp-container">
     <h2>Modifier votre mot de passe</h2>
     <p>Vous utilisez actuellement un mot de passe temporaire. Veuillez le changer.</p>
 
+    <?php if (isset($error)) : ?>
+        <p class="error-message"><?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
+
     <form action="change_password.php" method="post" class="mdp-form">
-        <input type="nouveau_mdp" name="nouveau_mdp" placeholder="Nouveau mot de passe :" required>
-        <input type="confirmation" name="confirmation" placeholder="Confirmation du nouveau mot de passe" required>
+        <div class="password-container">
+            <input type="password" id="nouveau_mdp" name="nouveau_mdp" placeholder="Nouveau mot de passe :" required>
+            <i class="bi bi-eye-slash" id="togglePassword"></i>
+        </div>
+        <div class="password-container">
+            <input type="password" id="confirmation" name="confirmation" placeholder="Confirmation du mot de passe" required>
+            <i class="bi bi-eye-slash" id="toggleConfirm"></i>
+        </div>
         <button type="submit" class="btn-modifier">Modifier</button>
     </form>
 </div>
 
-<?php require_once '../../layouts/footer.php'; ?> 
- 
+<script>
+document.getElementById("togglePassword").addEventListener("click", function() {
+    let passwordInput = document.getElementById("nouveau_mdp");
+    let icon = this;
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        icon.classList.remove("bi-eye-slash");
+        icon.classList.add("bi-eye");
+    } else {
+        passwordInput.type = "password";
+        icon.classList.remove("bi-eye");
+        icon.classList.add("bi-eye-slash");
+    }
+});
+
+document.getElementById("toggleConfirm").addEventListener("click", function() {
+    let confirmInput = document.getElementById("confirmation");
+    let icon = this;
+
+    if (confirmInput.type === "password") {
+        confirmInput.type = "text";
+        icon.classList.remove("bi-eye-slash");
+        icon.classList.add("bi-eye");
+    } else {
+        confirmInput.type = "password";
+        icon.classList.remove("bi-eye");
+        icon.classList.add("bi-eye-slash");
+    }
+});
+
+
+window.onload = function() {
+    alert("⚠️ Votre mot de passe est temporaire. Veuillez le modifier immédiatement.");
+};
+
+</script>
+
 </body>
 </html>

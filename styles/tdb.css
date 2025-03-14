@@ -1,0 +1,135 @@
+/* Section TBD > Mes informations */
+.tbd__border {
+    background-color: #262626;
+    border-radius: 20px;
+    padding: 50px;
+    width: 300px;
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 35px;
+    ;
+}
+
+.tbd__titre {
+    margin-left: 0px;
+    font-size: 14px;
+    margin: 0px;
+}
+
+.tbd__infos {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0px;
+}
+
+
+
+.tbd__pen {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 14px;
+    opacity: 0.7;
+    cursor: pointer;
+    width: 20px;
+}
+
+.tbd__container {
+    display: flex;
+    justify-content: center;
+}
+
+
+.tbd__border-in {
+    border-bottom: solid 1px #ebebeb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/*MAIN*/ 
+
+/* Réglages globaux  */
+body {
+    background-color: #0d0d0d;
+    color: #ebebeb;
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.4;
+    ;
+  }
+  
+  .logo {
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    width: 187px;
+  }
+  
+  /* Titre sections + espace */
+  .section__content {
+    margin: 20px;
+  }
+  
+  .section__title {
+    font-size: var(--M22);
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+  
+  .section__title-left {
+    font-size: var(--M22);
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Hero page MON TABLEAU DE BORD */
+
+.img__hero-tbd {
+    background-image: url(./group180.webp);
+    background-size: cover;
+    background-position: center;
+    height: 329px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    }
+    
+    .img__container-tdb img {
+      width: 100%;
+    }
+    
+    .img_container-tbd {
+      margin: 20px;
+      display: flex;  
+    }
+    
+    .img__tbd-slogan {
+      font-size: var(--M24);
+      font-weight: 600;
+      margin-bottom: 0px;
+      margin-top: 180px;
+    }
+    
+    .img__tbd-icon {
+      width: 30px;
+      height: 30px;
+    }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

@@ -3,7 +3,7 @@
 
 
   <div>
-    <img src="/creating_form/assets/creatingform.webp" alt="Logo" class="logo">
+    <img src="/assets/creatingform.webp" alt="Logo" class="logo">
   </div>
 
   <hr class="hr_footer">
@@ -14,7 +14,7 @@
     <p>+33 6 41 19 82 43</p>
   </div>
   <div class="footer_facebook">
-    <img src="/creating_form/assets/facebook.webp" alt="Facebook">
+    <img src="/assets/facebook.webp" alt="Facebook">
   </div>
 
   <hr class="hr_footer">

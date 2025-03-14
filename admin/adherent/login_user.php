@@ -1,30 +1,30 @@
 <?php
 session_start();
-include('../administrateur/config.php');
-
-require_once '../db.php'; 
-require_once '../../layouts/header.php'; 
-
+include '../administrateur/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $email = trim($_POST['email']);
+    $email = trim($_POST['email']); 
     $mot_de_passe = $_POST['mot_de_passe'];
-
+    
     try {
-        $stmt = $pdo->prepare("SELECT * FROM adherent WHERE email = ?");
-        $stmt->execute([$email]);
+        $requet = "SELECT * FROM adherent WHERE email = :email";
+        $stmt = $pdo->prepare($requet);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user && password_verify($mot_de_passe, $user['mot_de_passe'])) {
-            $_SESSION['adherent_id'] = $user['id'];
+        
+        if ($user && $mot_de_passe === $user['mot_de_passe']) {
+            $_SESSION['adherent_id'] = $user['id_adherent'];
             $_SESSION['nom'] = $user['nom'];
+            $_SESSION['email'] = $user['email'];
+            $_SESSION['mdp_temporaire'] = $user['mdp_temporaire']; 
 
             if ($user['mdp_temporaire'] == 1) {
-                header("Location: ../admin/adherent/change_password.php");
-                exit();
-                
+                $_SESSION['popup_mdp'] = true; 
+                header("Location: change_password.php");
+            } else {
+                header("Location: ../../index.php");
             }
-            header("Location: ../../pages/tdb.php");
             exit();
         } else {
             $error = "Identifiants incorrects.";
@@ -33,6 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $error = "Erreur : " . $e->getMessage();
     }
 }
+
+
+require_once '../../layouts/header.php'; 
 ?>
 
 <!DOCTYPE html>
@@ -43,8 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Connexion à votre espace personnel</title>
     <link rel="stylesheet" href="../../styles/style.css"> 
     <style>
-
-
         .login-container {
             max-width: 400px;
             margin: 50px auto;
@@ -52,6 +53,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             background: #0d0d0d;
             padding: 20px;
             border-radius: 8px;
+        }
+
+        .password-container {
+            position: relative;
+            display: flex;
+            align-items: center;
         }
 
         .login-form input {
@@ -65,11 +72,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             font-size: small;
         }
 
+        .password-container input {
+            width: 100%;
+            padding-right: 40px;
+        }
+
+        .password-container i {
+            position: absolute;
+            right: 10px;
+            cursor: pointer;
+            color: gray;
+        }
+
         .login-form .forgot-password {
             font-size: 14px;
-            text-decoration: none;
             display: block;
             margin-bottom: 20px;
+            margin-top: 10px;
+            color: #ebebeb;
+        }
+        .forgot-password:hover {
+            color: #3498db;
         }
 
         .btn-connexion {
@@ -98,18 +121,38 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <p class="error-message"><?= htmlspecialchars($error) ?></p>
     <?php endif; ?>
 
-    <form action="login_user.php" method="post" class="login-form">
-       
+    <form method="post" class="login-form">
         <input type="email" name="email" placeholder="Nom d'utilisateur" required>
-        <input type="password" name="mot_de_passe" placeholder="Mot de passe" required>
 
-        <a href="/creating_form/src/admin/adherent/change_password.php" class="forgot-password">Pas de mot de passe ? Créez-le ici.</a>
+        <div class="password-container">
+            <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Mot de passe" required>
+            <i class="bi bi-eye-slash" id="togglePassword"></i>
+        </div>
+
+        <a href="change_password.php" class="forgot-password">Pas de mot de passe ? Créez-le ici.</a>
 
         <button type="submit" class="btn-connexion">Se connecter</button>
     </form>
 </div>
 
 <?php require_once '../../layouts/footer.php'; ?> 
+
+<script>
+document.getElementById("togglePassword").addEventListener("click", function() {
+    let passwordInput = document.getElementById("mot_de_passe");
+    let icon = this;
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        icon.classList.remove("bi-eye-slash");
+        icon.classList.add("bi-eye");
+    } else {
+        passwordInput.type = "password";
+        icon.classList.remove("bi-eye");
+        icon.classList.add("bi-eye-slash");
+    }
+});
+</script>
 
 </body>
 </html>

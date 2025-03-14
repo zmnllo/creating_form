@@ -42,41 +42,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion Admin</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
         body { 
-            font-family: Montserrat, sans-serif; 
+            font-family: Montserrat;
+            background:#0D0D0D;            
             text-align: center; 
             margin-top: 100px; 
+            color: #ebebeb;
         }
 
         .form-container { 
             width: 300px; 
             margin: auto; 
-            padding: 20px; border: 1px solid #ccc; 
+            padding: 20px;  
             border-radius: 10px; 
-            background: #f9f9f9; 
-
+            background: radial-gradient(circle, #2B3C43, #1E2A2F); 
         }
 
         input { 
-            width: 93%; 
-            padding: 10px; 
-            margin: 10px 0; 
-            border: 1px solid #ccc; 
-            border-radius: 5px; 
+            width: 90%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 0px;
+            background:rgba(13, 13, 13, 0.4);
+            color: #ebebeb;
         }
 
         button { 
-            width: 100%; 
-            padding: 10px; 
-            background: #28a745; 
-            color: white; 
-            border: none; 
-            cursor: pointer; 
-            border-radius: 5px; 
+            padding: 12px 50px;
+            background: linear-gradient(180deg, #df3e3f, #e55a1c);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 20px;
+            font-family: Roboto Condensed;
+            font-weight: 500;
         }
         
         button:hover { 
-            background: #218838; 
+            background: linear-gradient(180deg,rgb(173, 53, 53),rgb(182, 75, 26));
         }
         .error { 
             color: red; 
@@ -95,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form method="post">
         <input type="text" name="username" placeholder="Nom d'utilisateur" required>
         <input type="password" name="password" placeholder="Mot de passe" required>
-        <button type="submit">Se connecter</button>
+        <button type="submit">SE CONNECTER</button>
     </form>
 </div>
 

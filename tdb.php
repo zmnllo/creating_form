@@ -1,19 +1,24 @@
 <?php 
-include '../layouts/header.php';
-
 session_start();
+include './layouts/header.php';
+
 
 // Vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['adherent_id'])) {
-    header("Location: login_user.php"); // Rediriger vers la connexion si non connecté
+    header("Location: /admin/adherent/login_user.php"); // Rediriger vers la connexion si non connecté
     exit();
 }
 ?>
+<head>
+<link rel="stylesheet" href="./styles/tdb.css"/>
+
+</head>
+
 <!-- HERO de mon tableau de bord -->
 <div>
     <div class="img__hero-tbd">
         <div class="img_container-tbd">
-            <h2 class="img__tbd-slogan">Bienvenue dans votre Tableau de bord Noah,</h2>
+            <h2 class="img__tbd-slogan">Bienvenue dans votre Tableau de bord <?php echo $_SESSION['nom'];?></h2>
             <i class="bi bi-card-list img__tbd"></i>
         </div>
     </div>
@@ -150,4 +155,4 @@ if (!isset($_SESSION['adherent_id'])) {
 
 
 
-<?php include '../layouts/footer.php'; ?>
+<?php include './layouts/footer.php'; ?>

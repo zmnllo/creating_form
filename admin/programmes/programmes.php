@@ -5,6 +5,11 @@ ini_set('display_errors', 1);
 
 include '../administrateur/config.php';
 
+// Vérifier s'il y a un message de succès ou d'erreur
+$successMessage = $_SESSION['success_message'] ?? "";
+$errorMessage = $_SESSION['error_message'] ?? "";
+unset($_SESSION['success_message'], $_SESSION['error_message']);
+
 // Requête pour récupérer tous les programmes avec leur objectif, niveau et exercices
 $query = "SELECT 
     p.id_programme, p.nom_programme, 
@@ -55,23 +60,53 @@ foreach ($programmes as $prog) {
     <meta charset="UTF-8">
     <title>Liste des Programmes</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        table { width: 80%; margin: auto; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid black; padding: 10px; text-align: center; }
-        th { background-color: #f4f4f4; }
-        .edit-btn { 
-            background-color: #3498db; 
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+        body { font-family: Montserrat; text-align: center; background:#0D0D0D; color: #ebebeb;}
+        table { width: 90%; margin: auto; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #232323; padding: 10px; text-align: center; }
+        th { background-color: #232323; }
+
+        .edit-btn, .delete-btn { 
             color: white; 
             padding: 5px 10px; 
             text-decoration: none; 
             border-radius: 5px;
         }
+        .edit-btn { background-color: #3498db; }
         .edit-btn:hover { background-color: #2980b9; }
+        .delete-btn { background-color: #e74c3c; }
+        .delete-btn:hover { background-color: #c0392b; }
+
+        .add-button { display: inline-block; margin-top: 20px; padding: 10px 15px; background-color:rgb(46, 169, 70); color: white; text-decoration: none; border-radius: 5px; }
+        .add-button:hover {
+            background-color:rgb(38, 113, 53);
+        }
+        .btn-accueil { 
+            display: block;
+            margin-top: 15px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold; 
+        }
+        .btn-accueil:hover {
+            text-decoration: underline;
+        }
+        .success { color: green; font-weight: bold; margin-top: 10px; }
+        .error { color: red; font-weight: bold; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <h1>Liste des Programmes</h1>
+
+<?php if (!empty($successMessage)) : ?>
+    <p class="success"><?= $successMessage ?></p>
+<?php endif; ?>
+
+<?php if (!empty($errorMessage)) : ?>
+    <p class="error"><?= $errorMessage ?></p>
+<?php endif; ?>
 
 <table>
     <tr>
@@ -103,10 +138,16 @@ foreach ($programmes as $prog) {
             </td>
             <td>
                 <a href="modifier_programme.php?id_programme=<?= $id_programme ?>" class="edit-btn">Modifier</a>
+                <a href="supprimer_programme.php?id_programme=<?= $id_programme ?>" class="delete-btn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce programme ?')">Supprimer</a>
             </td>
         </tr>
     <?php endforeach; ?>
 </table>
+
+<br>
+
+<a href="ajouter_programme.php" class="add-button">+ Ajouter un Programme</a>
+<a href="../administrateur/admin.php" class="btn-accueil">Retour</a>
 
 </body>
 </html>

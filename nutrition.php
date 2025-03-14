@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 // Vérifier si l'utilisateur est connecté

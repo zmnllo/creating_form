@@ -5,68 +5,109 @@ ini_set('display_errors', 1);
 
 include '../administrateur/config.php';
 
-// Ajouter un exercice dans exercice_type
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nom_exercice = trim($_POST['nom_exercice']);
+$successMessage = "";
+$errorMessage = "";
 
-    if (!empty($nom_exercice)) {
-        $query = "INSERT INTO exercice_type (nom_exercice) VALUES (:nom_exercice)";
-        $stmt = $pdo->prepare($query);
-        $stmt->bindParam(':nom_exercice', $nom_exercice, PDO::PARAM_STR);
-        
-        if ($stmt->execute()) {
-            header("Location: exercices.php?success=ajout");
-            exit();
-        } else {
-            echo "Erreur lors de l'ajout.";
-        }
-    } else {
-        echo "Veuillez entrer un nom d'exercice.";
-    }
+$successType = filter_input(INPUT_GET, 'success', FILTER_DEFAULT);
+$errorType = filter_input(INPUT_GET, 'error', FILTER_DEFAULT);
+
+switch ($successType) {
+    case 'ajout':
+        $successMessage = "Exercice ajouté avec succès.";
+        break;
+    case 'modification':
+        $successMessage = "Exercice modifié avec succès.";
+        break;
+    case 'suppression':
+        $successMessage = "Exercice supprimé avec succès.";
+        break;
+}
+
+switch ($errorType) {
+    case 'suppression':
+        $errorMessage = "Erreur lors de la suppression.";
+        break;
 }
 
 // Récupérer la liste des exercices existants
-$queryExercices = "SELECT * FROM exercice_type ORDER BY nom_exercice ASC";
-$stmt = $pdo->query($queryExercices);
-$exercices = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$query = $pdo->query("SELECT * FROM exercice_type ORDER BY nom_exercice ASC");
+$exercices = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Gestion des exercices</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Exercices</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        form { display: inline-block; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9; }
-        input, button { padding: 10px; margin: 10px; width: 250px; }
-        table { width: 80%; margin: 20px auto; border-collapse: collapse; }
-        th, td { border: 1px solid black; padding: 10px; text-align: center; }
-        .back-link { display: block; margin-top: 15px; color: #3498db; text-decoration: none; font-weight: bold; }
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+        body { font-family: Montserrat; text-align: center; background:#0D0D0D; color: #ebebeb;}
+        table { width: 80%; margin: auto; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #232323; padding: 10px; text-align: center; }
+        th { background-color: #232323; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .actions a { margin: 0 5px; padding: 5px 10px; border-radius: 5px; text-decoration: none; }
+        .edit { background-color:rgb(107, 125, 207); color: white; }
+        .edit:hover {
+            background:rgb(71, 84, 142);
+        }
+        .delete { background-color:rgb(181, 74, 74); color: white; }
+        .delete:hover {
+            background:rgb(121, 48, 48);
+        }
+        .add-button { display: inline-block; margin-top: 20px; padding: 10px 15px; background-color:rgb(46, 169, 70); color: white; text-decoration: none; border-radius: 5px; }
+        .add-button:hover {
+            background-color:rgb(38, 113, 53);
+        }
+        .btn-accueil { 
+            display: block;
+            margin-top: 15px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold; 
+        }
+        .btn-accueil:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 
-<h1>Ajouter un nouvel exercice</h1>
-<form method="post">
-    <label>Nom de l'exercice :</label>
-    <input type="text" name="nom_exercice" required>
-    <button type="submit">Ajouter</button>
-</form>
+    <h1>Liste des Exercices</h1>
 
-<h2>Liste des exercices existants</h2>
-<table>
-    <tr>
-        <th>Nom de l'exercice</th>
-    </tr>
-    <?php foreach ($exercices as $exo) { ?>
+    <?php if (!empty($successMessage)) : ?>
+        <p class="success"><?= $successMessage ?></p>
+    <?php endif; ?>
+
+    <?php if (!empty($errorMessage)) : ?>
+        <p class="error"><?= $errorMessage ?></p>
+    <?php endif; ?>
+
+    <table>
         <tr>
-            <td><?= htmlspecialchars($exo['nom_exercice']) ?></td>
+            <th>ID</th>
+            <th>Nom de l'exercice</th>
+            <th>Actions</th>
         </tr>
-    <?php } ?>
-</table>
+        <?php foreach ($exercices as $exercice) : ?>
+            <tr>
+                <td><?= htmlspecialchars($exercice['id_exercice_type']) ?></td>
+                <td><?= htmlspecialchars($exercice['nom_exercice']) ?></td>
+                <td class="actions">
+                    <a class="edit" href="modifier_exercice.php?id_exercice_type=<?= $exercice['id_exercice_type'] ?>">Modifier</a>
+                    <a class="delete" href="supprimer_exercice.php?id_exercice_type=<?= $exercice['id_exercice_type'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet exercice ?')">Supprimer</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
 
-<a href="../admin.php" class="back-link">Retour</a>
+    <br>
+    <a href="ajouter_exercice.php" class="add-button">+ Ajouter un Exercice</a>
+
+    <a href="../administrateur/admin.php" class="btn-accueil">Retour</a>
 
 </body>
 </html>

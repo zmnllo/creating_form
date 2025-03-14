@@ -19,7 +19,6 @@
 
 <body>
 <header>
-    
     <div class="header">
         <div class="logo">
             <img src="/assets/creatingform.webp" alt="Logo">
@@ -46,15 +45,13 @@
                 <li><a href="index.php#contact">CONTACT</a></li>
             <?php }?>
 
-            <?php if (!isset($_SESSION['adherent_id'])): ?>
-                <li><a href="/admin/adherent/login_user.php">ME CONNECTER</a></li>
-            <?php else: ?>
+          
                 <li><a href="tdb.php">TABLEAU DE BORD</a></li>
                 <li><a href="entrainement.php">ENTRAÎNEMENTS</a></li>
                 <li><a href="nutrition.php">NUTRITION</a></li>
-                <li><a href="/admin/adherent/modif_infos.php">MODIFIER MES INFORMATIONS</a></li>
+                <li><a href="/admin/adherent/change_password.php">MODIFIER MES INFORMATIONS</a></li>
                 <li><a href="/admin/adherent/logout_user.php">ME DÉCONNECTER</a></li>
-            <?php endif; ?>
+           
         </ul>
     </nav>
 </header>

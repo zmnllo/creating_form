@@ -1,11 +1,11 @@
 <?php
+session_start();
 
 require_once '../db.php'; 
 
 if (!isset($pdo)) {
     die("Erreur : La connexion à la base de données n'est pas établie.");
 }
-
 
 // Fonction pour générer un mot de passe temporaire
 function genererMotDePasse($length = 10) {
@@ -16,38 +16,41 @@ $successMessage = "";
 $errorMessage = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $nom = trim($_POST['nom']);
-    $email = trim($_POST['email']);
-    
-    // Vérifier si l'email est déjà utilisé
-    $checkStmt = $pdo->prepare("SELECT id_adherent FROM adherent WHERE email = ?");
-    $checkStmt->execute([$email]);
+    $nom = $_POST['nom'];
+    $email = $_POST['email'];
 
-    if ($checkStmt->rowCount() > 0) {
-        $errorMessage = "Cet email est déjà utilisé.";
+    if (!$nom || !$email) {
+        $errorMessage = "Veuillez remplir tous les champs correctement.";
     } else {
-        $mdp_temp = genererMotDePasse(8);
-        $mdp_hash = password_hash($mdp_temp, PASSWORD_DEFAULT);
+        // Vérifier si l'email est déjà utilisé
+        $checkStmt = $pdo->prepare("SELECT id_adherent FROM adherent WHERE email = ?");
+        $checkStmt->execute([$email]);
 
-        try {
-            // Insérer l'adhérent dans la base de données
-            $stmt = $pdo->prepare("INSERT INTO adherent (nom, email, mot_de_passe, mdp_temporaire) VALUES (?, ?, ?, 1)");
-            $stmt->execute([$nom, $email, $mdp_hash]);
+        if ($checkStmt->rowCount() > 0) {
+            $errorMessage = "Cet email est déjà utilisé.";
+        } else {
+            $mdp_temp = genererMotDePasse(8); // Stocké en clair ⚠
 
-            // Envoi de l'email
-            $sujet = "Votre compte Creating Form";
-            $message = "Bonjour $nom,\n\nVotre compte a été créé.\n\n📌 **Identifiants temporaires** :\n📧 Email : $email\n🔑 Mot de passe : $mdp_temp\n\n✅ Merci de vous connecter et de modifier votre mot de passe.\n\nCreating Form";
-            $headers = "From: no-reply@creatingform.com\r\n" .
-                       "Reply-To: no-reply@creatingform.com\r\n" .
-                       "Content-Type: text/plain; charset=UTF-8\r\n";
+            try {
+                // Insérer l'adhérent dans la base de données
+                $stmt = $pdo->prepare("INSERT INTO adherent (nom, email, mot_de_passe, mdp_temporaire) VALUES (?, ?, ?, 1)");
+                $stmt->execute([$nom, $email, $mdp_temp]);
 
-            if (mail($email, $sujet, $message, $headers)) {
-                $successMessage = "Compte créé et email envoyé.";
-            } else {
-                $errorMessage = "Compte créé, mais l'email n'a pas pu être envoyé.";
+                // Envoi de l'email
+                $sujet = "Votre compte Creating Form";
+                $message = "Bonjour $nom,\n\nVotre compte a été créé.\n\n📌 **Identifiants temporaires** :\n📧 Email : $email\n🔑 Mot de passe : $mdp_temp\n\n✅ Merci de vous connecter et de modifier votre mot de passe.\n\nCreating Form";
+                $headers = "From: no-reply@creatingform.com\r\n" .
+                        "Reply-To: no-reply@creatingform.com\r\n" .
+                        "Content-Type: text/plain; charset=UTF-8\r\n";
+
+                if (mail($email, $sujet, $message, $headers)) {
+                    $successMessage = "Compte créé et email envoyé.";
+                } else {
+                    $errorMessage = "Compte créé, mais l'email n'a pas pu être envoyé.";
+                }
+            } catch (PDOException $e) {
+                $errorMessage = "Erreur : " . $e->getMessage();
             }
-        } catch (PDOException $e) {
-            $errorMessage = "Erreur : " . $e->getMessage();
         }
     }
 }
@@ -61,9 +64,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Inscription Adhérent</title>
     <link rel="stylesheet" href="../style.css"> <!-- Ajoute ton CSS ici -->
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            font-family: Montserrat;
+            background:#0D0D0D;            
             display: flex;
             justify-content: center;
             align-items: center;
@@ -71,45 +76,48 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             margin: 0;
         }
 
-        .form-container {
+        .container {
             width: 350px;
             background: white;
             padding: 20px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
             text-align: center;
+            background: radial-gradient(circle, #2B3C43, #1E2A2F);  
+
         }
 
         h2 {
             margin-bottom: 20px;
             font-size: 22px;
-            color: #333;
+            color: #ebebeb;
         }
 
         input {
             width: 90%;
-            padding: 10px;
+            padding: 15px;
             margin: 10px 0;
-            border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 16px;
+            border: 0px;
+            background:rgba(13, 13, 13, 0.4);
+            color: #ebebeb;
         }
 
         button {
-            width: 90%;
-            padding: 12px;
-            background: #3498db;
+            padding: 12px 50px;
+            background: linear-gradient(180deg, #df3e3f, #e55a1c);
             color: white;
             border: none;
             border-radius: 5px;
-            font-size: 16px;
             cursor: pointer;
             transition: 0.3s;
             margin: 20px;
+            font-family: Roboto Condensed;
+            font-weight: 500;
+
         }
 
         button:hover {
-            background: #2980b9;
+            background: linear-gradient(180deg,rgb(173, 53, 53),rgb(182, 75, 26));
         }
 
         .back-link {             
@@ -138,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 <body>
 
-<div class="form-container">
+<div class="container">
     <h2>Inscrire un nouvel adhérent</h2>
 
     <?php if (!empty($successMessage)) { echo "<p class='success'>$successMessage</p>"; } ?>
@@ -147,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <form action="create_user.php" method="post">
         <input type="text" name="nom" placeholder="Nom" required>
         <input type="email" name="email" placeholder="Email" required>
-        <button type="submit">Créer le compte</button>
+        <button type="submit">CRÉER LE COMPTE</button>
     </form>
 
     <a href="../administrateur/admin.php" class="back-link">Retour</a>

@@ -21,3 +21,6 @@
 @import "./components/fonctionnalite.css";
 @import "./components/form.css";
 @import "./components/hero.css";
+
+/* Pages */
+@import "/tdb.css";

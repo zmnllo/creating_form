@@ -37,36 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_admin'])) {
     }
 }
 
-// Modifier le mot de passe d'un admin
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_password'])) {
-    $username = trim($_POST['username']);
-    $newPassword = trim($_POST['new_password']);
 
-    // Vérifier si l'admin existe
-    $checkQuery = "SELECT password FROM admin WHERE username = :username";
-    $stmt = $pdo->prepare($checkQuery);
-    $stmt->bindParam(':username', $username, PDO::PARAM_STR);
-    $stmt->execute();
-    $admin = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$admin) {
-        $errorMessage = "Erreur : Cet admin n'existe pas.";
-    } elseif (password_verify($newPassword, $admin['password'])) {
-        $errorMessage = "Le nouveau mot de passe ne peut pas être identique à l'ancien.";
-    } else {
-        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-        $updateQuery = "UPDATE admin SET password = :password WHERE username = :username";
-        $stmt = $pdo->prepare($updateQuery);
-        $stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
-        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
-
-        if ($stmt->execute()) {
-            $successMessage = "Mot de passe mis à jour avec succès !";
-        } else {
-            $errorMessage = "Erreur lors de la mise à jour du mot de passe.";
-        }
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -76,30 +47,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_password'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Admins</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        .container { width: 350px; margin: auto; margin-bottom: 20px; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background: #f9f9f9; }
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+        body { font-family: Montserrat; text-align: center; background:#0D0D0D; color: #ebebeb; margin-top: 50px; }
+        .container { 
+            width: 350px; 
+            margin: auto; 
+            padding: 30px; 
+            border-radius: 10px; 
+            background: radial-gradient(circle, #2B3C43, #1E2A2F);  
+        }
         input { 
-            width: 93%; 
-            padding: 10px; 
+            width: 90%; 
+            padding: 15px; 
             margin: 10px 0; 
             border-radius: 5px;
-            border: 1px solid #ccc;
+            border: 0px;
+            background:rgba(13, 13, 13, 0.4);
+            color: #ebebeb;
+
         }
 
-        button { border-radius: 5px; width: 100%; padding: 10px; background: #28a745; color: white; border: none; cursor: pointer; }
-        button:hover { background: #218838; }
+        .add-button { 
+            border-radius: 5px; 
+            padding: 10px 50px; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            margin-top: 20px;
+            background: linear-gradient(180deg, #df3e3f, #e55a1c);
+            font-family: Roboto Condensed;
+            font-weight: 500;
+        }
+        .add-button:hover {            
+            background: linear-gradient(180deg,rgb(173, 53, 53),rgb(182, 75, 26));
+        }
         .error { color: red; font-weight: bold; }
         .success { color: green; font-weight: bold; }
-        .btn-accueil { 
-            background-color:rgb(220, 28, 140); 
-            padding : 10px; 
-            text-decoration: none; 
-            color: white;
-            border-radius: 5px;
+        .back-link {             
+            display: block;
+            margin-top: 15px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold; 
         }
-        .btn-accueil:hover {
-            background: rgb(120, 32, 83);
-        }
+        .back-link:hover {
+            text-decoration: underline;
+        }  
     </style>
 </head>
 <body>
@@ -114,27 +108,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_password'])) {
     <form method="post">
         <input type="text" name="username" placeholder="Nom d'utilisateur" required>
         <input type="password" name="password" placeholder="Mot de passe" required>
-        <button type="submit" name="add_admin">Ajouter</button>
+        <button class="add-button" type="submit" name="add_admin">AJOUTER</button>
     </form>
     
 </div>
 
-    <br>
-
-<div class="container">
-
-    <h3>Modifier le mot de passe</h3>
-    <form method="post">
-        <input type="text" name="username" placeholder="Nom d'utilisateur" required>
-        <input type="password" name="new_password" placeholder="Nouveau mot de passe" required>
-        <button type="submit" name="change_password">Modifier</button>
-    </form>
-
-</div>
-
 <br>
 
-<a href="../administrateur/admin.php" class="btn-accueil">Retour</a>
+<a href="../administrateur/admin.php" class="back-link">Retour</a>
 
 </body>
 </html>

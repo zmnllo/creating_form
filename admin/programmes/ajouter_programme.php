@@ -51,13 +51,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter un Programme</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f9f9f9; }
-        form { display: inline-block; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: white; }
-        input, select, button { padding: 10px; margin: 10px; width: 250px; }
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+        body { 
+            font-family: Montserrat; 
+            text-align: center; 
+            margin-top: 50px; 
+            background:#0D0D0D; 
+            color: #ebebeb; 
+        }
+        form { 
+            display: inline-block; 
+            padding: 20px;  
+            border-radius: 10px; 
+            background: radial-gradient(circle, #2B3C43, #1E2A2F); 
+        }
+        input, select, button { 
+            padding: 10px;
+            margin: 10px;
+            width: 250px;
+            border-radius: 20px;
+            background:rgba(13, 13, 13, 0.4);
+            color: #ebebeb;
+            border: 0px;
+        }
         .success { color: green; font-weight: bold; }
         .error { color: red; font-weight: bold; }
-        .back-link { display: block; margin-top: 15px; color: #3498db; text-decoration: none; font-weight: bold; }
-        .back-link:hover { text-decoration: underline; }
+        .back-link {             
+            display: block;
+            margin-top: 15px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold; 
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }     
+        .add-button { 
+            margin: 15px;
+            display: inline-block; 
+            margin-top: 20px; 
+            padding: 10px 15px; 
+            background: linear-gradient(180deg, #df3e3f, #e55a1c);
+            color: white; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -92,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endforeach; ?>
     </select>
 
-    <button type="submit">Ajouter</button>
+    <button class="add-button" type="submit">Ajouter</button>
 </form>
 
 <a href="programmes.php" class="back-link">Retour</a>

@@ -37,12 +37,53 @@ $exercices = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <title>Gestion des exercices</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        form { display: inline-block; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9; }
-        input, button { padding: 10px; margin: 10px; width: 250px; }
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+        body { 
+            font-family: Montserrat;  
+            text-align: center; 
+            background:#0D0D0D; 
+            color: #ebebeb; 
+        }
+        form { 
+            display: inline-block; 
+            padding: 20px; 
+            border-radius: 10px; 
+            background: radial-gradient(circle, #2B3C43, #1E2A2F);  
+        }
+        input, button { 
+            padding: 10px;
+            margin: 10px;
+            width: 250px;
+            border-radius: 20px;
+            background:rgba(13, 13, 13, 0.4);
+            color: #ebebeb;
+            border: 0px;
+        }
         table { width: 80%; margin: 20px auto; border-collapse: collapse; }
-        th, td { border: 1px solid black; padding: 10px; text-align: center; }
-        .back-link { display: block; margin-top: 15px; color: #3498db; text-decoration: none; font-weight: bold; }
+        th, td { border: 1px solid #232323; padding: 10px; text-align: center; }
+        th { background-color: #232323; }
+        .back-link {             
+            display: block;
+            margin-top: 15px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold; 
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }     
+        .add-button { 
+            margin: 15px;
+            display: inline-block; 
+            margin-top: 20px; 
+            padding: 10px 15px; 
+            background: linear-gradient(180deg, #df3e3f, #e55a1c);
+            color: white; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -51,7 +92,7 @@ $exercices = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <form method="post">
     <label>Nom de l'exercice :</label>
     <input type="text" name="nom_exercice" required>
-    <button type="submit">Ajouter</button>
+    <button class="add-button" type="submit">Ajouter</button>
 </form>
 
 <h2>Liste des exercices existants</h2>
@@ -68,7 +109,7 @@ $exercices = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php } ?>
 </table>
 
-<a href="../admin.php" class="back-link">Retour</a>
+<a href="exercice.php" class="back-link">Retour</a>
 
 </body>
 </html>
